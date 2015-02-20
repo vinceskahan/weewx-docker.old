@@ -4,9 +4,11 @@
 #
 # build via 'docker build -t weebian'
 #
-# run via 'docker run weebian -p 22 -p 80'
+# run via 'docker -p 22 -p 80 run -t weebian' 
 #     and optionally add -d to run detached in the backgroud
 #     or optionally add -t -i to monitor it in the foreground
+# or 'docker run -i -t weebian /bin/bash'
+#     and in the shell 'service start' nginx and weewx
 #
 # this Dockerfile sets root's password = root
 # and permits root logins over ssh for debugging
@@ -45,8 +47,8 @@ RUN cd weewx-* ; ./setup.py build ; ./setup.py install --quiet
 # link it into the nginx web
 RUN ln -s /usr/share/nginx/www /home/weewx/public_html
 
-# the init file is not needed in Docker since we start
-# manually via supervisord
+# not used under docker, but sometimes helpful to have installed
+RUN cp /home/weewx/util/init.d/weewx.debian /etc/init.d/weewx
 
 # DANGER WILL ROBINSON !!!!
 # set root's password to something trivial
