@@ -42,7 +42,7 @@ RUN apt-get install -y supervisor openssh-server
 RUN wget http://weewx.com/downloads/weewx-3.3.0.tar.gz -O /tmp/weewx.tgz
 RUN cd /tmp
 RUN tar zxvf /tmp/weewx.tgz
-RUN cd weewx-* ; ./setup.py build ; ./setup.py install --quiet
+RUN cd weewx-* ; ./setup.py build ; ./setup.py install --no-prompt
 
 # link it into the nginx web
 RUN ln -s /usr/share/nginx/www /home/weewx/public_html
