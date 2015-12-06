@@ -45,7 +45,7 @@ RUN tar zxvf /tmp/weewx.tgz
 RUN cd weewx-* ; ./setup.py build ; ./setup.py install --no-prompt
 
 # link it into the nginx web
-RUN ln -s /usr/share/nginx/html /home/weewx/public_html
+RUN ln -s /var/www/html /home/weewx/public_html
 
 # not used under docker, but sometimes helpful to have installed
 RUN cp /home/weewx/util/init.d/weewx.debian /etc/init.d/weewx
