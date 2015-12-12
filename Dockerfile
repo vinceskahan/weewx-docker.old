@@ -2,67 +2,62 @@
 #
 # Dockerfile for building a simulator driver weewx system
 #
-# build via 'docker build -t weebian'
+# build via 'docker build -t weebuntu'
 #
-# run via 'docker -p 22 -p 80 run -t weebian' 
+# run via 'docker -p 22 -p 80 run -t weebuntu' 
 #     and optionally add -d to run detached in the backgroud
 #     or optionally add -t -i to monitor it in the foreground
-# or 'docker run -i -t weebian /bin/bash'
+#
+# or 'docker run -i -t weebuntu /bin/bash'
 #     and in the shell 'service start' nginx and weewx
 #
 # this Dockerfile sets root's password = root
 # and permits root logins over ssh for debugging
 #
-# note: this uses debian because it's 20% smaller than the
-#       corresponding ubuntu 14.04 build, and it permits root
-#       to ssh into the container without requiring edits
-#
 # last modified:
-#     2015-1206 vinceskahan@gmail.com - update to 3.3.1
-#     2014-0120 vinceskahan@gmail.com - original
+#     2015-1211 - install pyephem, refactor to reduce layers
+#     2015-1206 - update to 3.3.1
+#     2015-0220 vinceskahan@gmail.com - original
 #
 #-------------------------------------------------------
 
-FROM debian
+FROM ubuntu
 MAINTAINER Vince Skahan "vinceskahan@gmail.com"
-
-# misc, webserver, weewx prerequisites
-RUN apt-get update; apt-get install -y sqlite3 wget curl procps \
-   nginx \
-   python-configobj python-cheetah python-imaging python-serial python-usb python-dev
-
-# for multiple processes running in the container
-RUN apt-get install -y supervisor openssh-server
-
-#---- uncomment to set your timezone to other than UTC
-RUN TIMEZONE="US/Pacific" && echo $TIMEZONE > /etc/timezone && dpkg-reconfigure --frontend noninteractive tzdata
-
-#---- uncomment for the optional pyephem
-
-RUN apt-get install -y python-pip && pip install pyephem
-
-# install weewx via the setup.py method
-#  - the 'cd' below expects Tom to stick with the weewx-VERSION naming in his .tgz
-RUN wget http://weewx.com/downloads/weewx-3.3.1.tar.gz -O /tmp/weewx.tgz
-RUN cd /tmp
-RUN tar zxvf /tmp/weewx.tgz
-RUN cd weewx-* ; ./setup.py build ; ./setup.py install --no-prompt
-
-# link it into the nginx web
-RUN ln -s /var/www/html /home/weewx/public_html
-
-# not used under docker, but sometimes helpful to have installed
-RUN cp /home/weewx/util/init.d/weewx.debian /etc/init.d/weewx
+EXPOSE 22
+EXPOSE 80
 
 # DANGER WILL ROBINSON !!!!
 # set root's password to something trivial
 RUN echo "root:root" | chpasswd
 
+#---- uncomment to set your timezone to other than UTC
+RUN TIMEZONE="US/Pacific" && echo $TIMEZONE > /etc/timezone && dpkg-reconfigure --frontend noninteractive tzdata
+
 # sshd needs its /var/run tree there to successfully start up
 RUN mkdir /var/run/sshd
 
-# use 'supervisord' to start multiple processes in the container
+# this slows things down a lot - perhaps comment out ?
+RUN apt-get update
+
+# copy supervisor config file into place
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+
+# install misc packages, webserver, weewx prerequisites, pip, supervisord/sshd
+# then install pyephem via pip
+# then install weewx via the setup.py method
+#  - the 'cd' below expects Tom to stick with the weewx-VERSION naming in his .tgz
+RUN apt-get install -y sqlite3 wget curl procps \
+        nginx \
+        python-configobj python-cheetah python-imaging python-serial python-usb python-dev \
+        python-pip \
+        supervisor openssh-server \
+    && pip install pyephem  \
+    && wget http://weewx.com/downloads/weewx-3.3.1.tar.gz -O /tmp/weewx.tgz && \
+      cd /tmp && \
+      tar zxvf /tmp/weewx.tgz && \
+      cd weewx-* ; ./setup.py build ; ./setup.py install --no-prompt && \
+      ln -s /var/www/html /home/weewx/public_html && \
+      cp /home/weewx/util/init.d/weewx.debian /etc/init.d/weewx
 
 # call supervisord as our container process to run
 CMD ["/usr/bin/supervisord"]
