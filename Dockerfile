@@ -34,9 +34,12 @@ RUN apt-get update; apt-get install -y sqlite3 wget curl procps \
 # for multiple processes running in the container
 RUN apt-get install -y supervisor openssh-server
 
-#---- uncomment the next two lines for the optional pyephem
-# RUN apt-get install -y python-pip 
-# RUN pip install pyephem
+#---- uncomment to set your timezone to other than UTC
+RUN TIMEZONE="US/Pacific" && echo $TIMEZONE > /etc/timezone && dpkg-reconfigure --frontend noninteractive tzdata
+
+#---- uncomment for the optional pyephem
+
+RUN apt-get install -y python-pip && pip install pyephem
 
 # install weewx via the setup.py method
 #  - the 'cd' below expects Tom to stick with the weewx-VERSION naming in his .tgz
