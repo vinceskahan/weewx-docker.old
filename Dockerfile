@@ -22,7 +22,7 @@
 #
 #-------------------------------------------------------
 
-FROM ubuntu
+FROM debian
 MAINTAINER Vince Skahan "vinceskahan@gmail.com"
 EXPOSE 22
 EXPOSE 80
