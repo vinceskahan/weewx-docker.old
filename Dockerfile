@@ -15,6 +15,7 @@
 # and permits root logins over ssh for debugging
 #
 # last modified:
+#     2016-0505 - update to 3.5.0
 #     2015-1211 - install pyephem, refactor to reduce layers
 #     2015-1206 - update to 3.3.1
 #     2015-0220 vinceskahan@gmail.com - original
@@ -52,7 +53,7 @@ RUN apt-get install -y sqlite3 wget curl procps \
         python-pip \
         supervisor openssh-server \
     && pip install pyephem  \
-    && wget http://weewx.com/downloads/weewx-3.3.1.tar.gz -O /tmp/weewx.tgz && \
+    && wget http://weewx.com/downloads/weewx-3.5.0.tar.gz -O /tmp/weewx.tgz && \
       cd /tmp && \
       tar zxvf /tmp/weewx.tgz && \
       cd weewx-* ; ./setup.py build ; ./setup.py install --no-prompt && \

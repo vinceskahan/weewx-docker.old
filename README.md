@@ -31,6 +31,11 @@ Yes, I called the resulting image 'weebian' :-)
     CONTAINER ID        IMAGE               COMMAND                CREATED             STATUS              PORTS                                          NAMES
     00a256c24b2b        weebian:latest      "/usr/bin/supervisor   9 seconds ago       Up 8 seconds       
     0.0.0.0:49228->22/tcp, 0.0.0.0:49229->80/tcp   drunk_jang
+
+### to expose ports to the local host
+    $ docker run -d -p 8001:80 -p 2201:22 weebian
+    (this exposes container port 80 to localhost:8001, and container port 22 to localhost 2201)
+
     
 See the Dockerfile here for more info at the top...
 
