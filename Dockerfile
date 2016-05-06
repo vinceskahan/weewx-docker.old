@@ -22,7 +22,8 @@
 #
 #-------------------------------------------------------
 
-FROM debian
+###FROM debian
+FROM vinceskahan/weebian:latest
 MAINTAINER Vince Skahan "vinceskahan@gmail.com"
 EXPOSE 22
 EXPOSE 80
@@ -35,7 +36,7 @@ RUN echo "root:root" | chpasswd
 RUN TIMEZONE="US/Pacific" && echo $TIMEZONE > /etc/timezone && dpkg-reconfigure --frontend noninteractive tzdata
 
 # sshd needs its /var/run tree there to successfully start up
-RUN mkdir /var/run/sshd
+RUN mkdir -p /var/run/sshd
 
 # this slows things down a lot - perhaps comment out ?
 RUN apt-get update
