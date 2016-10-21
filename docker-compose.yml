@@ -1,0 +1,13 @@
+version: '2'
+services:
+ weenginx:
+   image: nginx
+   ports:
+     - "8080:80"
+   volumes:
+     - ./public_html:/usr/share/nginx/html
+ weebian:
+   build: weebian
+   volumes:
+     - ./public_html:/home/weewx/public_html
+     - ./archive:/home/weewx/archive
