@@ -21,5 +21,5 @@ This runs two docker containers configured to work together:
 ### disclaimers
  * if on a mac and docker-compose is glacially slow, add the following to your /etc/hosts
 
-         `127.0.0.1	localhost localunixsocket.local`
+         127.0.0.1	localhost localunixsocket.local
 
