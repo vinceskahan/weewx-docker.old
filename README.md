@@ -19,5 +19,7 @@ This runs two docker containers configured to work together:
   open localhost:8080 in a browser
 
 ### disclaimers
- * patience....docker-compose seems glacially slow on a 2011 Macbook Air
- * the weewx container has pyephem built in, which doubles its size
+ * if on a mac and docker-compose is glacially slow, add the following to your /etc/hosts
+
+         `127.0.0.1	localhost localunixsocket.local`
+
