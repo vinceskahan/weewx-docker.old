@@ -8,6 +8,7 @@ services:
      - ./public_html:/usr/share/nginx/html
  weebian:
    build: weebian
+   image: weebian
    volumes:
      - ./public_html:/home/weewx/public_html
      - ./archive:/home/weewx/archive
