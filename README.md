@@ -23,3 +23,5 @@ This runs two docker containers configured to work together:
 
          127.0.0.1	localhost localunixsocket.local
 
+### sources to build this image
+   available at https://github.com/vinceskahan/weebian-docker
