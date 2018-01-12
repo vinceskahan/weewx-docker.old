@@ -2,13 +2,13 @@
 #
 # Dockerfile for building a simulator driver weewx system
 #
-# build via 'docker build -t weebian'
+# build via 'docker build -t weebuntu'
 #
-# run via 'docker -p 22 -p 80 run -t weebian' 
+# run via 'docker -p 22 -p 80 run -t weebuntu' 
 #     and optionally add -d to run detached in the backgroud
 #     or optionally add -t -i to monitor it in the foreground
 #
-# or 'docker run -i -t weebian /bin/bash'
+# or 'docker run -i -t weebuntu /bin/bash'
 #     and in the shell 'service start' nginx and weewx
 #
 # this Dockerfile sets root's password = root
@@ -26,7 +26,7 @@
 #
 #-------------------------------------------------------
 
-FROM debian
+FROM ubuntu
 MAINTAINER Vince Skahan "vinceskahan@gmail.com"
 
 # copy supervisor config file into place
@@ -56,6 +56,10 @@ RUN apt-get update \
 #           python-pip \
 #   && pip install pyephem
 
+#---- uncomment to set your timezone to other than UTC
+# (to do: this doesn't work any more)
+# RUN TIMEZONE="US/Pacific" && echo $TIMEZONE > /etc/timezone && dpkg-reconfigure --frontend noninteractive tzdata
+
 # install weewx, making sure to mkdir the directories we will use as external volumes
 RUN wget http://weewx.com/downloads/weewx-3.8.0.tar.gz -O /tmp/weewx.tgz && \
       cd /tmp && \
@@ -65,11 +69,7 @@ RUN wget http://weewx.com/downloads/weewx-3.8.0.tar.gz -O /tmp/weewx.tgz && \
       mkdir -p /home/weewx/archive /home/weewx/public_html
 
 # set the location to something indicating this os
-RUN sed -i -e s:Hood\ River,\ Oregon:Debian\ setup.py\ test\ system: /home/weewx/weewx.conf
-
-#---- uncomment to set your timezone to other than UTC
-# (to do: this doesn't work any more)
-#  RUN TIMEZONE="US/Pacific" && echo $TIMEZONE > /etc/timezone && dpkg-reconfigure --frontend noninteractive tzdata
+RUN sed -i s:Hood\ River\,\ Oregon:Ubuntu\ setup.py\ test\ system: /home/weewx/weewx.conf
 
 # call supervisord as our container process to run
 CMD ["/usr/bin/supervisord"]

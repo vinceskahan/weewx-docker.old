@@ -1,8 +1,8 @@
 # Docker implementation of weewx in simulator mode
 
-This small set of files lets you spin up a working Docker instance of weewx on top of minimal debian within just a minute or two, depending on your bandwidth.
+This small set of files lets you spin up a working Docker instance of weewx on top of minimal ubuntu within just a minute or two, depending on your bandwidth.
 
-Yes, I called the resulting image 'weebian' :-)
+Yes, I called the resulting image 'weebuntu' :-)
 
 ## how to build and use
 

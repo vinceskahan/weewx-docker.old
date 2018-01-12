@@ -1,14 +1,50 @@
 version: '2'
 services:
- weenginx:
-   image: nginx
-   ports:
-     - "8080:80"
-   volumes:
-     - ./public_html:/usr/share/nginx/html
- weebian:
-   build: weebian
-   image: weebian:3.8.0
-   volumes:
-     - ./public_html:/home/weewx/public_html
-     - ./archive:/home/weewx/archive
+
+#---- debian nginx listens on localhost:8080 ---
+
+  weenginx_debian:
+    image: nginx
+    ports:
+      - "8080:80"
+    volumes:
+      - ./public_html_debian:/usr/share/nginx/html
+
+  weebian:
+    build: weebian
+    image: weebian:3.8.0
+    volumes:
+      - ./public_html_debian:/home/weewx/public_html
+      - ./archive_debian:/home/weewx/archive
+
+#---- ubuntu nginx listens on localhost:8081 ---
+
+  weenginx_ubuntu:
+    image: nginx
+    ports:
+      - "8081:80"
+    volumes:
+      - ./public_html_ubuntu:/usr/share/nginx/html
+
+  weebuntu:
+    build: weebuntu
+    image: weebuntu:3.8.0
+    volumes:
+      - ./public_html_ubuntu:/home/weewx/public_html
+      - ./archive_ubuntu:/home/weewx/archive
+
+#---- centos7 nginx listens on localhost:8082 ---
+
+  weenginx_centos7:
+    image: nginx
+    ports:
+      - "8082:80"
+    volumes:
+      - ./public_html_centos7:/usr/share/nginx/html
+
+  weentos7:
+    build: centos7
+    image: weentos7:3.8.0
+    volumes:
+      - ./public_html_centos7:/home/weewx/public_html
+      - ./archive_centos7:/home/weewx/archive
