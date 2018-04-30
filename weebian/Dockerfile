@@ -11,10 +11,8 @@
 # or 'docker run -i -t weebian /bin/bash'
 #     and in the shell 'service start' nginx and weewx
 #
-# this Dockerfile sets root's password = root
-# and permits root logins over ssh for debugging
-#
 # last modified:
+#     2018-0430 - switch to python-pil, set timezone to US-Pacific
 #     2017-1122 - update to 3.8.0
 #     2017-1007 - update to 3.7.1
 #     2016-1021 - refactor for docker-compose
@@ -40,7 +38,7 @@ COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 # this should be reasonably stable
 RUN apt-get update \
     && apt-get install -y sqlite3 wget \
-           python-configobj python-cheetah python-imaging \
+           python-configobj python-cheetah python-pil \
            supervisor tzdata
 
 # add the trailing \ above and uncomment these to add in 
@@ -69,7 +67,7 @@ RUN sed -i -e s:Hood\ River,\ Oregon:Debian\ setup.py\ test\ system: /home/weewx
 
 #---- uncomment to set your timezone to other than UTC
 # (to do: this doesn't work any more)
-#  RUN TIMEZONE="US/Pacific" && echo $TIMEZONE > /etc/timezone && dpkg-reconfigure --frontend noninteractive tzdata
+RUN TIMEZONE="US/Pacific" && rm /etc/timezone && rm /etc/localtime && echo $TIMEZONE > /etc/timezone && dpkg-reconfigure --frontend noninteractive tzdata
 
 # call supervisord as our container process to run
 CMD ["/usr/bin/supervisord"]

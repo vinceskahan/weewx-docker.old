@@ -1,3 +1,21 @@
+#-------------------------------------------------------
+#
+# Dockerfile for building a simulator driver weewx system
+#
+# build via 'docker build -t centos7'
+#
+# run via 'docker -p 22 -p 80 run -t weentos7' 
+#     and optionally add -d to run detached in the backgroud
+#     or optionally add -t -i to monitor it in the foreground
+#
+# or 'docker run -i -t weentos7 /bin/bash'
+#     and in the shell 'service start' nginx and weewx
+#
+# last modified:
+#     2018-0430 - set timezone to US/Pacific
+#
+#-------------------------------------------------------
+
 FROM centos:7
 MAINTAINER Vince Skahan "vinceskahan@gmail.com"
 
@@ -38,7 +56,7 @@ RUN wget http://weewx.com/downloads/weewx-3.8.0.tar.gz -O /tmp/weewx.tgz && \
 RUN sed -i -e s:Hood\ River,\ Oregon:Centos7\ setup.py\ test\ system: /home/weewx/weewx.conf
 
 #---- uncomment to set your timezone to other than UTC
-# (to do)
+RUN TIMEZONE="US/Pacific" && rm -f /etc/localtime && ln -s /usr/share/zoneinfo/${TIMEZONE} /etc/localtime
 
 # call supervisord as our container process to run
 CMD ["/usr/bin/supervisord"]
