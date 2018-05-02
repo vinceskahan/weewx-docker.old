@@ -48,3 +48,21 @@ services:
     volumes:
       - ./public_html_centos7:/home/weewx/public_html
       - ./archive_centos7:/home/weewx/archive
+
+#---- centos6 nginx listens on localhost:8083 ---
+
+  weenginx_centos6:
+    image: nginx
+    ports:
+      - "8083:80"
+    volumes:
+      - ./public_html_centos6:/usr/share/nginx/html
+
+  weentos6:
+    build: centos6
+    image: weentos6:3.8.0
+    volumes:
+      - ./public_html_centos6:/home/weewx/public_html
+      - ./archive_centos6:/home/weewx/archive
+
+#----- that's all folks ----
