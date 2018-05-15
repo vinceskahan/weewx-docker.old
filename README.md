@@ -16,9 +16,10 @@ This runs pairs of docker containers configured to work together:
     docker-compose up -d
 
 ### to see the web pages:
-  open localhost:8080 in a browser for debian
-  open localhost:8081 in a browser for ubuntu
-  open localhost:8082 in a browser for centos7
+  * open localhost:8080 in a browser for debian
+  * open localhost:8081 in a browser for ubuntu
+  * open localhost:8082 in a browser for centos7
+  * open localhost:8083 in a browser for centos6
 
 ### disclaimers
  * if on a mac and docker-compose is glacially slow, add the following to your /etc/hosts
