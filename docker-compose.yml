@@ -5,6 +5,7 @@ services:
 
   weenginx_debian:
     image: nginx
+    container_name: weenginx_debian
     ports:
       - "8080:80"
     volumes:
@@ -12,7 +13,10 @@ services:
 
   weebian:
     build: weebian
+    container_name: weebian
     image: weebian:3.8.0
+    depends_on:
+      - weenginx_debian
     volumes:
       - ./public_html_debian:/home/weewx/public_html
       - ./archive_debian:/home/weewx/archive
@@ -21,6 +25,7 @@ services:
 
   weenginx_ubuntu:
     image: nginx
+    container_name: weenginx_ubuntu
     ports:
       - "8081:80"
     volumes:
@@ -28,7 +33,10 @@ services:
 
   weebuntu:
     build: weebuntu
+    container_name: weebuntu
     image: weebuntu:3.8.0
+    depends_on:
+      - weenginx_ubuntu
     volumes:
       - ./public_html_ubuntu:/home/weewx/public_html
       - ./archive_ubuntu:/home/weewx/archive
@@ -37,6 +45,7 @@ services:
 
   weenginx_centos7:
     image: nginx
+    container_name: weenginx_centos7
     ports:
       - "8082:80"
     volumes:
@@ -44,7 +53,10 @@ services:
 
   weentos7:
     build: centos7
+    container_name: weentos7
     image: weentos7:3.8.0
+    depends_on:
+      - weenginx_centos7
     volumes:
       - ./public_html_centos7:/home/weewx/public_html
       - ./archive_centos7:/home/weewx/archive
@@ -53,6 +65,8 @@ services:
 
   weenginx_centos6:
     image: nginx
+    container_name: weentos6
+    container_name: weenginx_centos6
     ports:
       - "8083:80"
     volumes:
@@ -61,6 +75,8 @@ services:
   weentos6:
     build: centos6
     image: weentos6:3.8.0
+    depends_on:
+      - weenginx_centos6
     volumes:
       - ./public_html_centos6:/home/weewx/public_html
       - ./archive_centos6:/home/weewx/archive
