@@ -14,7 +14,7 @@ services:
   weebian:
     build: weebian
     container_name: weebian
-    image: weebian:3.8.0
+    image: weebian:3.8.2
     depends_on:
       - weenginx_debian
     volumes:
@@ -34,7 +34,7 @@ services:
   weebuntu:
     build: weebuntu
     container_name: weebuntu
-    image: weebuntu:3.8.0
+    image: weebuntu:3.8.2
     depends_on:
       - weenginx_ubuntu
     volumes:
@@ -54,7 +54,7 @@ services:
   weentos7:
     build: centos7
     container_name: weentos7
-    image: weentos7:3.8.0
+    image: weentos7:3.8.2
     depends_on:
       - weenginx_centos7
     volumes:
@@ -74,7 +74,7 @@ services:
 
   weentos6:
     build: centos6
-    image: weentos6:3.8.0
+    image: weentos6:3.8.2
     depends_on:
       - weenginx_centos6
     volumes:

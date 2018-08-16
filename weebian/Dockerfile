@@ -12,6 +12,7 @@
 #     and in the shell 'service start' nginx and weewx
 #
 # last modified:
+#     2018-0816 - update to 3.8.2
 #     2018-0430 - switch to python-pil, set timezone to US-Pacific
 #     2017-1122 - update to 3.8.0
 #     2017-1007 - update to 3.7.1
@@ -55,7 +56,7 @@ RUN apt-get update \
 #   && pip install pyephem
 
 # install weewx, making sure to mkdir the directories we will use as external volumes
-RUN wget http://weewx.com/downloads/weewx-3.8.0.tar.gz -O /tmp/weewx.tgz && \
+RUN wget http://weewx.com/downloads/weewx-3.8.2.tar.gz -O /tmp/weewx.tgz && \
       cd /tmp && \
       tar zxvf /tmp/weewx.tgz && \
       cd weewx-* ; ./setup.py build ; ./setup.py install --no-prompt && \
