@@ -15,6 +15,7 @@
 # and permits root logins over ssh for debugging
 #
 # last modified:
+#     2019-0203 - update to 3.9.0b3
 #     2018-0816 - update to 3.8.2
 #     2018-0430 - use python-pil for bionic, timezone=US/Pacific
 #     2017-1122 - update to 3.8.0
@@ -62,7 +63,7 @@ RUN apt-get update \
 RUN TIMEZONE="US/Pacific" && rm /etc/timezone && rm /etc/localtime && echo $TIMEZONE > /etc/timezone && dpkg-reconfigure --frontend noninteractive tzdata
 
 # install weewx, making sure to mkdir the directories we will use as external volumes
-RUN wget http://weewx.com/downloads/weewx-3.8.2.tar.gz -O /tmp/weewx.tgz && \
+RUN wget http://weewx.com/downloads/development_versions/weewx-3.9.0b3.tar.gz -O /tmp/weewx.tgz && \
       cd /tmp && \
       tar zxvf /tmp/weewx.tgz && \
       cd weewx-* ; ./setup.py build ; ./setup.py install --no-prompt && \
@@ -70,7 +71,7 @@ RUN wget http://weewx.com/downloads/weewx-3.8.2.tar.gz -O /tmp/weewx.tgz && \
       mkdir -p /home/weewx/archive /home/weewx/public_html
 
 # set the location to something indicating this os
-RUN sed -i s:Hood\ River\,\ Oregon:Ubuntu\ setup.py\ test\ system: /home/weewx/weewx.conf
+RUN sed -i -e s:My\ Little\ Town,\ Oregon:Ubuntu\ setup.py\ test\ system: /home/weewx/weewx.conf
 
 # call supervisord as our container process to run
 CMD ["/usr/bin/supervisord"]
