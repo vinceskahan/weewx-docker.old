@@ -12,6 +12,7 @@
 #     and in the shell 'service start' nginx and weewx
 #
 # last modified:
+#     2019-0206 - update to 3.9.1, clean up apt remnants
 #     2019-0205 - update to 3.9.0
 #     2019-0203 - update to 3.9.0b3
 #     2019-0122 - update to 3.9.0b1
@@ -39,11 +40,17 @@ COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 # then install weewx via the setup.py method
 #  - the 'cd' below expects Tom to stick with the weewx-VERSION naming in his .tgz
 #
+# cleanup of apt remnants courtesy of:
+#  https://gist.github.com/marvell/7c812736565928e602c4
+#
 # this should be reasonably stable
 RUN apt-get update \
     && apt-get install -y sqlite3 wget \
            python-configobj python-cheetah python-pil \
-           supervisor tzdata
+           supervisor tzdata \
+    && apt-get clean autoclean \
+    && apt-get autoremove --yes \
+    && rm -rf /var/lib/{apt,dpkg,cache,log}
 
 # add the trailing \ above and uncomment these to add in 
 # unnecessary things that you might want to add to the image
@@ -59,7 +66,7 @@ RUN apt-get update \
 #   && pip install pyephem
 
 # install weewx, making sure to mkdir the directories we will use as external volumes
-RUN wget http://weewx.com/downloads/weewx-3.9.0.tar.gz -O /tmp/weewx.tgz && \
+RUN wget http://weewx.com/downloads/weewx-3.9.1.tar.gz -O /tmp/weewx.tgz && \
       cd /tmp && \
       tar zxvf /tmp/weewx.tgz && \
       cd weewx-* ; ./setup.py build ; ./setup.py install --no-prompt && \

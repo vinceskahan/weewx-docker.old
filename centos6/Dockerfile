@@ -12,6 +12,7 @@
 #     and in the shell 'service start' nginx and weewx
 #
 # last modified:
+#     2019-0206 - update to 3.9.1
 #     2019-0205 - update to 3.9.0
 #     2019-0203 - update to 3.9.0b3
 #     2018-0816 - update to 3.8.2
@@ -64,7 +65,7 @@ RUN easy_install supervisor
 # (note: pyephem above makes the size much bigger and the build much slower)
 
 # install weewx, making sure to mkdir the directories we will use as external volumes
-RUN wget http://weewx.com/downloads/weewx-3.9.0.tar.gz -O /tmp/weewx.tgz && \
+RUN wget http://weewx.com/downloads/weewx-3.9.1.tar.gz -O /tmp/weewx.tgz && \
       cd /tmp && \
       tar zxvf /tmp/weewx.tgz && \
       cd weewx-* ; ./setup.py build ; ./setup.py install --no-prompt && \
