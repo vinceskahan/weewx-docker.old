@@ -2,6 +2,38 @@ version: '3'
 services:
 
   #-----------------------------------------------------------------------
+  #--- debian 10 installed via setup ---
+  #-----------------------------------------------------------------------
+  #
+  #    webserver listens on 8887
+  #
+  # to build+run this pair:
+  #    docker-compose up tar_deb10
+  #
+  # to destroy and remove it:
+  #    docker-compose down tar_deb10
+
+  weewx_setup_deb10:
+    tty: true
+    build: build/setup_deb10
+    container_name: weewx_setup_deb10
+    image: weewx_setup_deb10:latest
+    depends_on:
+      - weewx_nginx_setup_deb10
+    volumes:
+      - /var/tmp/weewx_html/html_setup_deb10:/home/weewx/public_html
+      - /var/tmp/weewx_archive/archive_setup_deb10:/home/weewx/archive
+
+  weewx_nginx_setup_deb10:
+    image: nginx
+    container_name: weewx_nginx_setup_deb10
+    ports:
+      - "8887:80"
+    volumes:
+      - /var/tmp/weewx_html/html_setup_deb10:/usr/share/nginx/html
+
+
+  #-----------------------------------------------------------------------
   #--- debian 10 installed via dpkg ---
   #-----------------------------------------------------------------------
   #
