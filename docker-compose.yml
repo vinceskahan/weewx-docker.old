@@ -1,28 +1,18 @@
 version: '3'
 services:
 
+  #-----------------------------------------------------------------------
+  #--- debian 10 installed via dpkg ---
+  #-----------------------------------------------------------------------
+  #
+  #    webserver listens on 8888
+  #
+  # to build+run this pair:
+  #    docker-compose up pkg_deb10
+  #
+  # to destroy and remove it:
+  #    docker-compose down pkg_deb10
 
-#-----------------------------------------------------------------------
-#--- debian 10 installed via dpkg ---
-#-----------------------------------------------------------------------
-#
-#    webserver listens on 8888
-#
-# to build+run this pair:
-#    docker-compose up pkg_deb10
-#
-# to destroy and remove it:
-#    docker-compose down pkg_deb10
-
-  weewx_nginx_pkg_deb10:
-    image: nginx
-    container_name: weewx_nginx_pkg_deb10
-    ports:
-      - "8888:80"
-    volumes:
-      - /var/tmp/weewx_html/html_pkg_deb10:/usr/share/nginx/html
-
-  # these pathnames for dpkg
   weewx_pkg_deb10:
     tty: true
     build: build/pkg_deb10
@@ -34,27 +24,26 @@ services:
       - /var/tmp/weewx_html/html_pkg_deb10:/var/www/html/weewx
       - /var/tmp/weewx_archive/archive_pkg_deb10:/var/lib/weewx
 
-#-----------------------------------------------------------------------
-#--- uubuntu 2004 installed via dpkg ---
-#-----------------------------------------------------------------------
-#
-#    webserver listens on 8889
-#
-# to build+run this pair:
-#    docker-compose up pkg_ubuntu2004
-#
-# to destroy and remove it:
-#    docker-compose down pkg_ubuntu2004
-
-  weewx_nginx_pkg_ubuntu2004:
+  weewx_nginx_pkg_deb10:
     image: nginx
-    container_name: weewx_nginx_pkg_ubuntu2004
+    container_name: weewx_nginx_pkg_deb10
     ports:
-      - "8889:80"
+      - "8888:80"
     volumes:
-      - /var/tmp/weewx_html/html_pkg_ubuntu2004:/usr/share/nginx/html
+      - /var/tmp/weewx_html/html_pkg_deb10:/usr/share/nginx/html
 
-  # these pathnames for dpkg
+  #-----------------------------------------------------------------------
+  #--- ubuntu 2004 installed via dpkg ---
+  #-----------------------------------------------------------------------
+  #
+  #    webserver listens on 8889
+  #
+  # to build+run this pair:
+  #    docker-compose up pkg_ubuntu2004
+  #
+  # to destroy and remove it:
+  #    docker-compose down pkg_ubuntu2004
+
   weewx_pkg_ubuntu2004:
     tty: true
     build: build/pkg_ubuntu2004
@@ -65,7 +54,14 @@ services:
     volumes:
       - /var/tmp/weewx_html/html_pkg_ubuntu2004:/var/www/html/weewx
       - /var/tmp/weewx_archive/archive_pkg_ubuntu2004:/var/lib/weewx
-
+  
+  weewx_nginx_pkg_ubuntu2004:
+    image: nginx
+    container_name: weewx_nginx_pkg_ubuntu2004
+    ports:
+      - "8889:80"
+    volumes:
+      - /var/tmp/weewx_html/html_pkg_ubuntu2004:/usr/share/nginx/html
 
 #-- #---- uubuntu nginx listens on localhost:8081 ---
 #-- 

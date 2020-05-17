@@ -9,12 +9,12 @@ This runs pairs of docker containers configured to work together:
 Note: this compose files uses /var/tmp/weewx_html and /var/tmp/weewx_archive for persistent storage
 
 ### to build:
-    docker-compose build             # to build all variants
-    docker-compose build weebian     # to build only one variant
+    docker-compose build                   # to build all variants
+    docker-compose build wee_pkg_deb10     # to build only one variant
 
 ### to run with logs in foreground:
-    docker-compose up                # to run all variants
-    docker-compose up wee_pkg_deb10  # to run only one variant
+    docker-compose up                      # to run all variants
+    docker-compose up wee_pkg_deb10        # to run only one variant
 
 ### to run detached:
     docker-compose up -d                   # to run all variants
