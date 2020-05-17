@@ -75,7 +75,7 @@ RUN wget http://www.weewx.com/downloads/released_versions/python3-weewx_4.0.0-1_
     DEBIAN_FRONTEND=noninteractive apt-get install -y ./python3-weewx_4.0.0-1_all.deb
 
 # let'em know who we are
-RUN sed -i -e s:My\ Little\ Town,\ Oregon:Debian10\ dpkg\ test\ system: /etc/weewx/weewx.conf
+RUN sed -i -e s:Santa\'s\ Workshop,\ North\ Pole:Debian10\ dpkg\ test\ system: /etc/weewx/weewx.conf
 
 #---- uncomment to set your timezone to other than UTC
 # (to do: this doesn't work any more)
