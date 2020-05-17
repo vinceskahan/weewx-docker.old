@@ -15,6 +15,7 @@
 # and permits root logins over ssh for debugging
 #
 # last modified:
+#     2019-0516 - update to 4.0.0
 #     2019-0206 - update to 3.9.1, clean up apt remnants
 #     2019-0205 - update to 3.9.0
 #     2019-0203 - update to 3.9.0b3
@@ -71,7 +72,7 @@ RUN apt-get update \
 RUN TIMEZONE="US/Pacific" && rm /etc/timezone && rm /etc/localtime && echo $TIMEZONE > /etc/timezone && dpkg-reconfigure --frontend noninteractive tzdata
 
 # install weewx, making sure to mkdir the directories we will use as external volumes
-RUN wget http://weewx.com/downloads/weewx-3.9.1.tar.gz -O /tmp/weewx.tgz && \
+RUN wget http://weewx.com/downloads/weewx-4.0.0.tar.gz -O /tmp/weewx.tgz && \
       cd /tmp && \
       tar zxvf /tmp/weewx.tgz && \
       cd weewx-* ; ./setup.py build ; ./setup.py install --no-prompt && \
@@ -82,7 +83,8 @@ RUN wget http://weewx.com/downloads/weewx-3.9.1.tar.gz -O /tmp/weewx.tgz && \
 RUN sed -i -e s:My\ Little\ Town,\ Oregon:Ubuntu\ setup.py\ test\ system: /home/weewx/weewx.conf
 
 # call supervisord as our container process to run
-CMD ["/usr/bin/supervisord"]
+# CMD ["/usr/bin/supervisord"]
+CMD ["/home/weewx/bin/weewxd", "--daemon", "--pidfile=/var/run/weewx.pid", "/home/weewx/weewx.conf" ]
 
 # or use bash instead (and manually run supervisord) for debugging
 # CMD ["/bin/bash"]

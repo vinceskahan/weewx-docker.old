@@ -2,25 +2,27 @@
 #
 # Dockerfile for building a simulator driver weewx system
 #
-# build via 'docker build -t centos7'
+# build via 'docker build -t centos6'
 #
-# run via 'docker -p 22 -p 80 run -t weentos7' 
+# run via 'docker -p 22 -p 80 run -t weentos6' 
 #     and optionally add -d to run detached in the backgroud
 #     or optionally add -t -i to monitor it in the foreground
 #
-# or 'docker run -i -t weentos7 /bin/bash'
+# or 'docker run -i -t weentos6 /bin/bash'
 #     and in the shell 'service start' nginx and weewx
 #
 # last modified:
+#     2019-0516 - update to 4.0.0
 #     2019-0206 - update to 3.9.1
 #     2019-0205 - update to 3.9.0
 #     2019-0203 - update to 3.9.0b3
 #     2018-0816 - update to 3.8.2
+#     2018-0502 - try centos6
 #     2018-0430 - set timezone to US/Pacific
 #
 #-------------------------------------------------------
 
-FROM centos:7
+FROM centos:6
 MAINTAINER Vince Skahan "vinceskahan@gmail.com"
 
 # copy supervisor config file into place
@@ -42,14 +44,29 @@ RUN easy_install supervisor
 # add the trailing \ above and uncomment these to add in 
 # unnecessary things that you might want to add to the image
 #
-#           pyserial pyusb \
-#           curl procps \
-#           pyephem
+#           curl procps
+#
 
+#--- python serial/usb modules ---
+#
+# pyusb is available from the EPEL repo, but pyserial
+# does not exist there (sigh).  Just use pip for simplicity.
+#
+#    yum install -y python-pip
+#    pip install pyserial pyusb
+#
+
+#--- pyephem ---
+#
+# pyephem is available in EPEL as well, but since we're using
+# pip to install the serial/usb modules, use it for pyephem too
+#
+#    pip install pyephem
+#
 # (note: pyephem above makes the size much bigger and the build much slower)
 
 # install weewx, making sure to mkdir the directories we will use as external volumes
-RUN wget http://weewx.com/downloads/weewx-3.9.1.tar.gz -O /tmp/weewx.tgz && \
+RUN wget http://weewx.com/downloads/weewx-4.0.0g.tar.gz -O /tmp/weewx.tgz && \
       cd /tmp && \
       tar zxvf /tmp/weewx.tgz && \
       cd weewx-* ; ./setup.py build ; ./setup.py install --no-prompt && \
@@ -57,7 +74,7 @@ RUN wget http://weewx.com/downloads/weewx-3.9.1.tar.gz -O /tmp/weewx.tgz && \
       mkdir -p /home/weewx/archive /home/weewx/public_html
 
 # set the location to something indicating this os
-RUN sed -i -e s:My\ Little\ Town,\ Oregon:Centos7\ setup.py\ test\ system: /home/weewx/weewx.conf
+RUN sed -i -e s:My\ Little\ Town,\ Oregon:Centos6\ setup.py\ test\ system: /home/weewx/weewx.conf
 
 #---- uncomment to set your timezone to other than UTC
 RUN TIMEZONE="US/Pacific" && rm -f /etc/localtime && ln -s /usr/share/zoneinfo/${TIMEZONE} /etc/localtime

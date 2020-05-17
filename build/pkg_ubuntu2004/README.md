@@ -1,8 +1,6 @@
-# Docker implementation of weewx in simulator mode
+# Ubuntu 20.04 weewx via dpkg - simulator mode
 
-This small set of files lets you spin up a working Docker instance of weewx on top of minimal debian within just a minute or two, depending on your bandwidth.
-
-Yes, I called the resulting image 'weebian' :-)
+This small set of files lets you spin up a working Docker instance of weewx on top of minimal os within just a minute or two, depending on your bandwidth.
 
 ## how to build and use
 

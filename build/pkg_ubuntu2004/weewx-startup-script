@@ -1,0 +1,12 @@
+#!/bin/bash
+
+echo "starting weewx....."
+/usr/bin/python /home/weewx/bin/weewxd --daemon --pidfile=/var/run/weewx.pid /home/weewx/weewx.conf
+echo "starting weewx (complete)....."
+
+echo "looking for weewx....."
+ps axu | grep wee
+
+sleep 1234567890
+exec "$@"
+

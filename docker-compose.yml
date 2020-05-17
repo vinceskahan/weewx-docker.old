@@ -1,84 +1,130 @@
-version: '2'
+version: '3'
 services:
 
-#---- debian nginx listens on localhost:8080 ---
 
-  weenginx_debian:
+#-----------------------------------------------------------------------
+#--- debian 10 installed via dpkg ---
+#-----------------------------------------------------------------------
+#
+#    webserver listens on 8888
+#
+# to build+run this pair:
+#    docker-compose up pkg_deb10
+#
+# to destroy and remove it:
+#    docker-compose down pkg_deb10
+
+  weewx_nginx_pkg_deb10:
     image: nginx
-    container_name: weenginx_debian
+    container_name: weewx_nginx_pkg_deb10
     ports:
-      - "8080:80"
+      - "8888:80"
     volumes:
-      - ./public_html_debian:/usr/share/nginx/html
+      - /var/tmp/weewx_html/html_pkg_deb10:/usr/share/nginx/html
 
-  weebian:
-    build: weebian
-    container_name: weebian
-    image: weebian:3.9.1
+  # these pathnames for dpkg
+  weewx_pkg_deb10:
+    tty: true
+    build: build/pkg_deb10
+    container_name: weewx_pkg_deb10
+    image: weewx_pkg_deb10:latest
     depends_on:
-      - weenginx_debian
+      - weewx_nginx_pkg_deb10
     volumes:
-      - ./public_html_debian:/home/weewx/public_html
-      - ./archive_debian:/home/weewx/archive
+      - /var/tmp/weewx_html/html_pkg_deb10:/var/www/html/weewx
+      - /var/tmp/weewx_archive/archive_pkg_deb10:/var/lib/weewx
 
-#---- ubuntu nginx listens on localhost:8081 ---
+#-----------------------------------------------------------------------
+#--- uubuntu 2004 installed via dpkg ---
+#-----------------------------------------------------------------------
+#
+#    webserver listens on 8889
+#
+# to build+run this pair:
+#    docker-compose up pkg_ubuntu2004
+#
+# to destroy and remove it:
+#    docker-compose down pkg_ubuntu2004
 
-  weenginx_ubuntu:
+  weewx_nginx_pkg_ubuntu2004:
     image: nginx
-    container_name: weenginx_ubuntu
+    container_name: weewx_nginx_pkg_ubuntu2004
     ports:
-      - "8081:80"
+      - "8889:80"
     volumes:
-      - ./public_html_ubuntu:/usr/share/nginx/html
+      - /var/tmp/weewx_html/html_pkg_ubuntu2004:/usr/share/nginx/html
 
-  weebuntu:
-    build: weebuntu
-    container_name: weebuntu
-    image: weebuntu:3.9.1
+  # these pathnames for dpkg
+  weewx_pkg_ubuntu2004:
+    tty: true
+    build: build/pkg_ubuntu2004
+    container_name: weewx_pkg_ubuntu2004
+    image: weewx_pkg_ubuntu2004:latest
     depends_on:
-      - weenginx_ubuntu
+      - weewx_nginx_pkg_ubuntu2004
     volumes:
-      - ./public_html_ubuntu:/home/weewx/public_html
-      - ./archive_ubuntu:/home/weewx/archive
+      - /var/tmp/weewx_html/html_pkg_ubuntu2004:/var/www/html/weewx
+      - /var/tmp/weewx_archive/archive_pkg_ubuntu2004:/var/lib/weewx
 
-#---- centos7 nginx listens on localhost:8082 ---
 
-  weenginx_centos7:
-    image: nginx
-    container_name: weenginx_centos7
-    ports:
-      - "8082:80"
-    volumes:
-      - ./public_html_centos7:/usr/share/nginx/html
-
-  weentos7:
-    build: centos7
-    container_name: weentos7
-    image: weentos7:3.9.1
-    depends_on:
-      - weenginx_centos7
-    volumes:
-      - ./public_html_centos7:/home/weewx/public_html
-      - ./archive_centos7:/home/weewx/archive
-
-#---- centos6 nginx listens on localhost:8083 ---
-
-  weenginx_centos6:
-    image: nginx
-    container_name: weentos6
-    container_name: weenginx_centos6
-    ports:
-      - "8083:80"
-    volumes:
-      - ./public_html_centos6:/usr/share/nginx/html
-
-  weentos6:
-    build: centos6
-    image: weentos6:3.9.1
-    depends_on:
-      - weenginx_centos6
-    volumes:
-      - ./public_html_centos6:/home/weewx/public_html
-      - ./archive_centos6:/home/weewx/archive
-
+#-- #---- uubuntu nginx listens on localhost:8081 ---
+#-- 
+#--   weenginx_uubuntu:
+#--     image: nginx
+#--     container_name: weenginx_uubuntu
+#--     ports:
+#--       - "8081:80"
+#--     volumes:
+#--       - ./public_html_uubuntu:/usr/share/nginx/html
+#-- 
+#--   weeubuntu:
+#--     build: weeubuntu
+#--     container_name: weeubuntu
+#--     image: weeubuntu:3.9.1
+#--     depends_on:
+#--       - weenginx_uubuntu
+#--     volumes:
+#--       - ./public_html_uubuntu:/home/weewx/public_html
+#--       - ./archive_uubuntu:/home/weewx/archive
+#-- 
+#-- #---- centos7 nginx listens on localhost:8082 ---
+#-- 
+#--   weenginx_centos7:
+#--     image: nginx
+#--     container_name: weenginx_centos7
+#--     ports:
+#--       - "8082:80"
+#--     volumes:
+#--       - ./public_html_centos7:/usr/share/nginx/html
+#-- 
+#--   weentos7:
+#--     build: centos7
+#--     container_name: weentos7
+#--     image: weentos7:3.9.1
+#--     depends_on:
+#--       - weenginx_centos7
+#--     volumes:
+#--       - ./public_html_centos7:/home/weewx/public_html
+#--       - ./archive_centos7:/home/weewx/archive
+#-- 
+#-- #---- centos6 nginx listens on localhost:8083 ---
+#-- 
+#--   weenginx_centos6:
+#--     image: nginx
+#--     container_name: weentos6
+#--     container_name: weenginx_centos6
+#--     ports:
+#--       - "8083:80"
+#--     volumes:
+#--       - ./public_html_centos6:/usr/share/nginx/html
+#-- 
+#--   weentos6:
+#--     build: centos6
+#--     image: weentos6:3.9.1
+#--     depends_on:
+#--       - weenginx_centos6
+#--     volumes:
+#--       - ./public_html_centos6:/home/weewx/public_html
+#--       - ./archive_centos6:/home/weewx/archive
+#-- 
 #----- that's all folks ----
