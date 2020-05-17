@@ -21,8 +21,10 @@ Note: this compose files uses /var/tmp/weewx_html and /var/tmp/weewx_archive for
     docker-compose up -d wee_pkg_deb10     # to run only one variant
 
 ### to see the web pages:
-  * open localhost:8088 in a browser for debian 10    (dpkg)
-  * open localhost:8089 in a browser for ubuntu 20.04 (dpkg) 
+  * open localhost:8878 in a browser for ubuntu 20.04 (python3, dpkg)
+  * open localhost:8879 in a browser for ubuntu 20.04 (python3, setup.py)
+  * open localhost:8888 in a browser for debian 10    (python3, dpkg)
+  * open localhost:8889 in a browser for debian 10    (python3, setup.py)
 
 ### to stop all containers and delete networks
     docker-compose down 
