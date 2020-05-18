@@ -64,6 +64,37 @@ services:
       - /var/tmp/weewx_html/html_setup_ubuntu2004:/usr/share/nginx/html
 
   #-----------------------------------------------------------------------
+  #--- debian 10 installed via setup ---
+  #-----------------------------------------------------------------------
+  #
+  #    webserver listens on 8889
+  #
+  # to build+run this pair:
+  #    docker-compose up tar_deb10
+  #
+  # to destroy and remove it:
+  #    docker-compose down tar_deb10
+
+  weewx_setup_deb10:
+    tty: true
+    build: build/setup_deb10
+    container_name: weewx_setup_deb10
+    image: weewx_setup_deb10:latest
+    depends_on:
+      - weewx_nginx_setup_deb10
+    volumes:
+      - /var/tmp/weewx_html/html_setup_deb10:/home/weewx/public_html
+      - /var/tmp/weewx_archive/archive_setup_deb10:/home/weewx/archive
+
+  weewx_nginx_setup_deb10:
+    image: nginx
+    container_name: weewx_nginx_setup_deb10
+    ports:
+      - "8889:80"
+    volumes:
+      - /var/tmp/weewx_html/html_setup_deb10:/usr/share/nginx/html
+
+  #-----------------------------------------------------------------------
   #--- debian 10 installed via dpkg ---
   #-----------------------------------------------------------------------
   #
@@ -95,35 +126,35 @@ services:
       - /var/tmp/weewx_html/html_pkg_deb10:/usr/share/nginx/html
 
   #-----------------------------------------------------------------------
-  #--- debian 10 installed via setup ---
+  #--- debian 10 installed via setup (python2) ---
   #-----------------------------------------------------------------------
   #
-  #    webserver listens on 8888
+  #    webserver listens on 8887
   #
   # to build+run this pair:
-  #    docker-compose up tar_deb10
+  #    docker-compose up tar_deb10_py2
   #
   # to destroy and remove it:
-  #    docker-compose down tar_deb10
+  #    docker-compose down tar_deb10_py2
 
-  weewx_setup_deb10:
+  weewx_setup_deb10_py2:
     tty: true
-    build: build/setup_deb10
-    container_name: weewx_setup_deb10
-    image: weewx_setup_deb10:latest
+    build: build/setup_deb10_py2
+    container_name: weewx_setup_deb10_py2
+    image: weewx_setup_deb10_py2:latest
     depends_on:
-      - weewx_nginx_setup_deb10
+      - weewx_nginx_setup_deb10_py2
     volumes:
-      - /var/tmp/weewx_html/html_setup_deb10:/home/weewx/public_html
-      - /var/tmp/weewx_archive/archive_setup_deb10:/home/weewx/archive
+      - /var/tmp/weewx_html/html_setup_deb10_py2:/home/weewx/public_html
+      - /var/tmp/weewx_archive/archive_setup_deb10_py2:/home/weewx/archive
 
-  weewx_nginx_setup_deb10:
+  weewx_nginx_setup_deb10_py2:
     image: nginx
-    container_name: weewx_nginx_setup_deb10
+    container_name: weewx_nginx_setup_deb10_py2
     ports:
-      - "8889:80"
+      - "8887:80"
     volumes:
-      - /var/tmp/weewx_html/html_setup_deb10:/usr/share/nginx/html
+      - /var/tmp/weewx_html/html_setup_deb10_py2:/usr/share/nginx/html
 
 #-- #---- uubuntu nginx listens on localhost:8081 ---
 #-- 
