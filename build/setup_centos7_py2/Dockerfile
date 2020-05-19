@@ -1,25 +1,3 @@
-#-------------------------------------------------------
-#
-# Dockerfile for building a simulator driver weewx system
-#
-# build via 'docker build -t centos7'
-#
-# run via 'docker -p 22 -p 80 run -t weentos7' 
-#     and optionally add -d to run detached in the backgroud
-#     or optionally add -t -i to monitor it in the foreground
-#
-# or 'docker run -i -t weentos7 /bin/bash'
-#     and in the shell 'service start' nginx and weewx
-#
-# last modified:
-#     2019-0516 - update to 4.0.0
-#     2019-0206 - update to 3.9.1
-#     2019-0205 - update to 3.9.0
-#     2019-0203 - update to 3.9.0b3
-#     2018-0816 - update to 3.8.2
-#     2018-0430 - set timezone to US/Pacific
-#
-#-------------------------------------------------------
 
 FROM centos:7
 MAINTAINER Vince Skahan "vinceskahan@gmail.com"
@@ -49,22 +27,26 @@ RUN easy_install supervisor
 
 # (note: pyephem above makes the size much bigger and the build much slower)
 
-# install weewx, making sure to mkdir the directories we will use as external volumes
+# extract it out
 RUN wget http://weewx.com/downloads/weewx-4.0.0.tar.gz -O /tmp/weewx.tgz && \
       cd /tmp && \
-      tar zxvf /tmp/weewx.tgz && \
-      cd weewx-* ; ./setup.py build ; ./setup.py install --no-prompt && \
-      cp /home/weewx/util/init.d/weewx.debian /etc/init.d/weewx && \
-      mkdir -p /home/weewx/archive /home/weewx/public_html
+      tar zxvf /tmp/weewx.tgz
+
+# patch logger.py to use the console logger
+COPY logger.py /tmp/logger.py
+
+# now build it
+RUN cd /tmp/weewx-* ; cp /tmp/logger.py ./bin/weeutil/logger.py && \
+    python ./setup.py build && \
+    echo -e "mylocation\n700,foot\n0.00\n0.00\nn\nus\n3\n" | python ./setup.py install  && \
+    cp /home/weewx/util/init.d/weewx.debian /etc/init.d/weewx && \
+    mkdir -p /home/weewx/archive /home/weewx/public_html
 
 # set the location to something indicating this os
-RUN sed -i -e s:My\ Little\ Town,\ Oregon:Centos7\ setup.py\ test\ system: /home/weewx/weewx.conf
+RUN sed -i -e s:mylocation:Centos7\ setup.py\ test\ system\ \(python2\): /home/weewx/weewx.conf
 
 #---- uncomment to set your timezone to other than UTC
 RUN TIMEZONE="US/Pacific" && rm -f /etc/localtime && ln -s /usr/share/zoneinfo/${TIMEZONE} /etc/localtime
 
 # call supervisord as our container process to run
 CMD ["/usr/bin/supervisord"]
-
-# or use bash instead (and manually run supervisord) for debugging
-#CMD ["/bin/bash"]

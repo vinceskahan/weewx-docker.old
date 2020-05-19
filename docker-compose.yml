@@ -156,6 +156,37 @@ services:
     volumes:
       - /var/tmp/weewx_html/html_setup_deb10_py2:/usr/share/nginx/html
 
+  #-----------------------------------------------------------------------
+  #--- centos 7 installed via setup (python2) ---
+  #-----------------------------------------------------------------------
+  #
+  #    webserver listens on 8867
+  #
+  # to build+run this pair:
+  #    docker-compose up tar_deb10_py2
+  #
+  # to destroy and remove it:
+  #    docker-compose down tar_deb10_py2
+
+  weewx_setup_centos7_py2:
+    tty: true
+    build: build/setup_centos7_py2
+    container_name: weewx_setup_centos7_py2
+    image: weewx_setup_centos7_py2:latest
+    depends_on:
+      - weewx_nginx_setup_centos7_py2
+    volumes:
+      - /var/tmp/weewx_html/html_setup_centos7_py2:/home/weewx/public_html
+      - /var/tmp/weewx_archive/archive_setup_centos7_py2:/home/weewx/archive
+
+  weewx_nginx_setup_centos7_py2:
+    image: nginx
+    container_name: weewx_nginx_setup_centos7_py2
+    ports:
+      - "8867:80"
+    volumes:
+      - /var/tmp/weewx_html/html_setup_centos7_py2:/usr/share/nginx/html
+
 #-- #---- uubuntu nginx listens on localhost:8081 ---
 #-- 
 #--   weenginx_uubuntu:

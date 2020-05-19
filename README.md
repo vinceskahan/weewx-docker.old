@@ -29,6 +29,13 @@ Note: this compose files uses /var/tmp/weewx_html and /var/tmp/weewx_archive for
   * open localhost:8888 in a browser for debian 10    (python3, dpkg)
   * open localhost:8889 in a browser for debian 10    (python3, setup.py)
 
+  * open localhost:8869 in a browser for centos 7     (python2, setup.py)
+
+### known issues:
+ * the centos 7 container doesn't log at all, but seems to run fine in brief testing.
+   To do this, I patched logger.py to use the console logger rather than syslog to a socket,
+   using code from Tom (see https://groups.google.com/d/msg/weewx-development/Xx-1k6zxwVY/xgfCYeF9BAAJ)
+
 ### to stop all containers and delete networks
     docker-compose down 
     docker-compose down wee_pkg_deb10    # to shut down just that one pair of containers
