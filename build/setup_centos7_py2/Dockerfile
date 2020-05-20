@@ -14,7 +14,8 @@ COPY supervisord.conf /etc/supervisord.conf
 RUN yum update -y  \
     && yum install -y sqlite3 wget \
            python-configobj python-cheetah python-imaging \
-           tzdata python-setuptools
+           tzdata python-setuptools \
+           rsyslog
 
 RUN easy_install supervisor
 
@@ -34,13 +35,24 @@ RUN wget http://weewx.com/downloads/weewx-4.0.0.tar.gz -O /tmp/weewx.tgz && \
 
 # patch logger.py to use the console logger
 COPY logger.py /tmp/logger.py
+COPY rsyslog.conf /tmp/rsyslog.conf
 
 # now build it
-RUN cd /tmp/weewx-* ; cp /tmp/logger.py ./bin/weeutil/logger.py && \
+# convoluted steps here
+#   - copy our rsyslog.conf into place
+#   - stash the original logger.py
+#     and use our patched version through 'setup install'
+#   - then put the stashed logger.py back into place
+
+RUN cd /tmp/weewx-* && \
+    cp /tmp/rsyslog.conf /etc/rsyslog.conf && \
+    cp ./bin/weeutil/logger.py /tmp/logger.py.dist && cp /tmp/logger.py ./bin/weeutil/logger.py && \
     python ./setup.py build && \
+    /usr/sbin/rsyslogd && \
     echo -e "mylocation\n700,foot\n0.00\n0.00\nn\nus\n3\n" | python ./setup.py install  && \
-    cp /home/weewx/util/init.d/weewx.debian /etc/init.d/weewx && \
-    mkdir -p /home/weewx/archive /home/weewx/public_html
+    cp /tmp/logger.py.dist /home/weewx/bin/weeutil/logger.py && \
+    mkdir -p /home/weewx/archive /home/weewx/public_html && \
+    sed -i -e s:debug\ =\ 0:debug\ =\ 1: /home/weewx/weewx.conf
 
 # set the location to something indicating this os
 RUN sed -i -e s:mylocation:Centos7\ setup.py\ test\ system\ \(python2\): /home/weewx/weewx.conf
