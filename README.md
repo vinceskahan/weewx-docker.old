@@ -21,6 +21,18 @@ Note: this compose files uses /var/tmp/weewx_html and /var/tmp/weewx_archive for
     docker-compose up -d wee_pkg_deb10     # to run only one variant
 
 ### to see the web pages:
+
+| os 	| ver 	| type 	| python 	| nginx port 	|
+|:-:	|:-:	|:-:	|:-:	|:-:	|
+| ubuntu | 20.04 | dpkg	| 3 | 8878 |
+| ubuntu | 20.04 | setup | 3 |  8879i|
+|:-:	|:-:	|:-:	|:-:	|:-:	|
+| debian | 10 | dpkg 	| 2 |  8887	|
+| debian | 10 | dpkg 	| 3 |  8888	|
+| debian | 10 | dpkg 	| 2 |  8887	|
+|:-:	|:-:	|:-:	|:-:	|:-:	|
+| centos | 7 | setup 	| 2 |  8869	|
+
   * open localhost:8878 in a browser for ubuntu 20.04 (python3, dpkg)
   * open localhost:8879 in a browser for ubuntu 20.04 (python3, setup.py)
 
