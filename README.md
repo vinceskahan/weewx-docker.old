@@ -22,13 +22,14 @@ Note: this compose files uses /var/tmp/weewx_html and /var/tmp/weewx_archive for
 
 ### to see the web pages:
 
-| os     | ver   | type  | python | nginx port |
-| ubuntu | 20.04 | setup | 3      | 8879       | 
-| ubuntu | 20.04 | dpkg  | 3      | 8878       |
-| debian | 10    | setup | 3      | 8889       |
-| debian | 10    | dpkg  | 3      | 8888       |
-| debian | 10    | setup | 2      | 8887       |
-| centos | 7     | setup | 2      | 8867       |
+|   os   |  ver  |  type | python | nginx port | 
+| :---:  | :---: | :---: | :---:  |    :---:   |  
+| ubuntu | 20.04 | setup |   3    |    8879    |  
+| ubuntu | 20.04 | dpkg  |   3    |    8878    | 
+| debian | 10    | setup |   3    |    8889    | 
+| debian | 10    | dpkg  |   3    |    8888    | 
+| debian | 10    | setup |   2    |    8887    | 
+| centos | 7     | setup |   2    |    8867    | 
 
 ### known issues:
  * workarounds to make logging work vs v4.0.0 are in the Dockerfiles
