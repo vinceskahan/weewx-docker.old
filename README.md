@@ -22,31 +22,16 @@ Note: this compose files uses /var/tmp/weewx_html and /var/tmp/weewx_archive for
 
 ### to see the web pages:
 
-| os 	| ver 	| type 	| python 	| nginx port 	|
-|:-:	|:-:	|:-:	|:-:	|:-:	|
-| ubuntu | 20.04 | dpkg	| 3 | 8878 |
-| ubuntu | 20.04 | setup | 3 |  8879i|
-|:-:	|:-:	|:-:	|:-:	|:-:	|
-| debian | 10 | dpkg 	| 2 |  8887	|
-| debian | 10 | dpkg 	| 3 |  8888	|
-| debian | 10 | dpkg 	| 2 |  8887	|
-|:-:	|:-:	|:-:	|:-:	|:-:	|
-| centos | 7 | setup 	| 2 |  8869	|
-
-  * open localhost:8878 in a browser for ubuntu 20.04 (python3, dpkg)
-  * open localhost:8879 in a browser for ubuntu 20.04 (python3, setup.py)
-
-  * open localhost:8887 in a browser for debian 10    (python2, dpkg)
-
-  * open localhost:8888 in a browser for debian 10    (python3, dpkg)
-  * open localhost:8889 in a browser for debian 10    (python3, setup.py)
-
-  * open localhost:8869 in a browser for centos 7     (python2, setup.py)
+| os     | ver   | type  | python | nginx port |
+| ubuntu | 20.04 | setup | 3      | 8879       | 
+| ubuntu | 20.04 | dpkg  | 3      | 8878       |
+| debian | 10    | setup | 3      | 8889       |
+| debian | 10    | dpkg  | 3      | 8888       |
+| debian | 10    | setup | 2      | 8887       |
+| centos | 7     | setup | 2      | 8867       |
 
 ### known issues:
- * the centos 7 container doesn't log at all, but seems to run fine in brief testing.
-   To do this, I patched logger.py to use the console logger rather than syslog to a socket,
-   using code from Tom (see https://groups.google.com/d/msg/weewx-development/Xx-1k6zxwVY/xgfCYeF9BAAJ)
+ * workarounds to make logging work vs v4.0.0 are in the Dockerfiles
 
 ### to stop all containers and delete networks
     docker-compose down 
