@@ -30,6 +30,7 @@ Note: this compose files uses /var/tmp/weewx_html and /var/tmp/weewx_archive for
 | debian | 10    | dpkg  |   3    |    8888    | 
 | debian | 10    | setup |   2    |    8887    | 
 | centos | 7     | setup |   2    |    8867    | 
+| centos | 8     | setup |   3    |    8857    | 
 
 ### known issues:
  * workarounds to make logging work vs v4.0.0 are in the Dockerfiles

@@ -8,10 +8,10 @@ services:
   #    webserver listens on 8878
   #
   # to build+run this pair:
-  #    docker-compose up pkg_ubuntu2004
+  #    docker-compose up weewx_pkg_ubuntu2004
   #
   # to destroy and remove it:
-  #    docker-compose down pkg_ubuntu2004
+  #    docker-compose down weewx_pkg_ubuntu2004
 
   weewx_pkg_ubuntu2004:
     tty: true
@@ -70,10 +70,10 @@ services:
   #    webserver listens on 8889
   #
   # to build+run this pair:
-  #    docker-compose up tar_deb10
+  #    docker-compose up weewx_setup_deb10
   #
   # to destroy and remove it:
-  #    docker-compose down tar_deb10
+  #    docker-compose down weewx_setup_deb10
 
   weewx_setup_deb10:
     tty: true
@@ -101,10 +101,10 @@ services:
   #    webserver listens on 8888
   #
   # to build+run this pair:
-  #    docker-compose up pkg_deb10
+  #    docker-compose up weewx_pkg_deb10
   #
   # to destroy and remove it:
-  #    docker-compose down pkg_deb10
+  #    docker-compose down weewx_pkg_deb10
 
   weewx_pkg_deb10:
     tty: true
@@ -132,10 +132,10 @@ services:
   #    webserver listens on 8887
   #
   # to build+run this pair:
-  #    docker-compose up tar_deb10_py2
+  #    docker-compose up weewx_setup_deb10_py2
   #
   # to destroy and remove it:
-  #    docker-compose down tar_deb10_py2
+  #    docker-compose down weewx_setup_deb10_py2
 
   weewx_setup_deb10_py2:
     tty: true
@@ -163,10 +163,10 @@ services:
   #    webserver listens on 8867
   #
   # to build+run this pair:
-  #    docker-compose up tar_deb10_py2
+  #    docker-compose up weewx_setup_deb10_py2
   #
   # to destroy and remove it:
-  #    docker-compose down tar_deb10_py2
+  #    docker-compose down weewx_setup_deb10_py2
 
   weewx_setup_centos7_py2:
     tty: true
@@ -186,6 +186,38 @@ services:
       - "8867:80"
     volumes:
       - /var/tmp/weewx_html/html_setup_centos7_py2:/usr/share/nginx/html
+
+  #-----------------------------------------------------------------------
+  #--- centos 8 installed via setup (python2) ---
+  #-----------------------------------------------------------------------
+  #
+  #    webserver listens on 8857
+  #
+  # to build+run this pair:
+  #    docker-compose up weewx_setup_centos8
+  #
+  # to destroy and remove it:
+  #    docker-compose down weewx_setup_centos8
+
+  weewx_setup_centos8:
+    tty: true
+    build: build/setup_centos8
+    container_name: weewx_setup_centos8
+    image: weewx_setup_centos8:latest
+    depends_on:
+      - weewx_nginx_setup_centos8
+    volumes:
+      - /var/tmp/weewx_html/html_setup_centos8:/home/weewx/public_html
+      - /var/tmp/weewx_archive/archive_setup_centos8:/home/weewx/archive
+
+  weewx_nginx_setup_centos8:
+    image: nginx
+    container_name: weewx_nginx_setup_centos8
+    ports:
+      - "8857:80"
+    volumes:
+      - /var/tmp/weewx_html/html_setup_centos8:/usr/share/nginx/html
+
 
 #-- #---- uubuntu nginx listens on localhost:8081 ---
 #-- 
