@@ -2,9 +2,6 @@
 FROM debian:10
 MAINTAINER Vince Skahan "vinceskahan@gmail.com"
 
-# copy supervisor config file into place
-COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
-
 # cleanup of apt remnants courtesy of:
 #  https://gist.github.com/marvell/7c812736565928e602c4
 
@@ -15,31 +12,30 @@ RUN apt-get update \
             python-serial \
             python-usb \
             python-pip \
-            wget supervisor procps vim sqlite3 rsyslog \
+            wget supervisor procps vim sqlite3 rsyslog unzip \
     && apt-get clean autoclean \
     && apt-get autoremove --yes \
     && rm -rf /var/lib/{apt,dpkg,cache,log}
 # optional: add python-pyephem to the list above
+
+# copy supervisor config file into place
+COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+
+# copy rsyslogd config file into place
+COPY rsyslog.conf /etc/rsyslog.conf
 
 # os notes:
 #    debian:10 docker base image does not have python-distutils installed
 #              and seems to default to python2, so we call python explictly below
 #              if this Dockerfile uses setup.py
 
-##### 4.0.0 needs a patch to restore --no-prompt
-####    so lets keep the old syntax here for when it's merged back in
-####
-#### this replaces the build/install line below...
-####    cd weewx-* ; python ./setup.py build ; python ./setup.py install --no-prompt && \
-
-# weewx v4 syslogging requires a running syslogd before 'install' will work
-RUN rsyslogd && \
-    wget http://weewx.com/downloads/weewx-4.0.0.tar.gz -O /tmp/weewx.tgz  && \
+RUN wget https://github.com/weewx/weewx/archive/master.zip -O /tmp/weewx.zip && \
       cd /tmp && \
-      tar zxvf /tmp/weewx.tgz && \
-      cd weewx-* ; python ./setup.py build && echo "mylocation\n700,foot\n0.00\n0.00\nn\nus\n3\n" | python ./setup.py install && \
+      unzip /tmp/weewx.zip && \
+      cd weewx-* ; python ./setup.py build && python ./setup.py install --no-prompt && \
       cp /home/weewx/util/init.d/weewx.debian /etc/init.d/weewx && \
-      mkdir -p /home/weewx/archive /home/weewx/public_html
+      mkdir -p /home/weewx/archive /home/weewx/public_html && \
+      sed -i -e s:My\ Little\ Town,\ Oregon:Debian10\ setup.py\ test\ system\ \(python2\): /home/weewx/weewx.conf
 
 # let'em know who we are
 # - when weewx is patched for --no-prompt this sed will need to change
@@ -50,4 +46,3 @@ RUN TIMEZONE="US/Pacific" && rm /etc/timezone && rm /etc/localtime && echo $TIME
 
 # call supervisord as our container process to run
 CMD ["supervisord"]
-
