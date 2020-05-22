@@ -12,7 +12,7 @@ COPY supervisord.conf /etc/supervisord.conf
 #
 # this should be reasonably stable
 RUN yum update -y  \
-    && yum install -y wget tzdata rsyslog \
+    && yum install -y wget tzdata rsyslog unzip \
            python3-pip python3-configobj python3-pillow python3-pyserial python3-pyusb \
            epel-release 
 
@@ -33,9 +33,8 @@ RUN wget http://weewx.com/downloads/weewx-4.0.0.tar.gz -O /tmp/weewx.tgz && \
       cd /tmp && \
       tar zxvf /tmp/weewx.tgz
 
-# patch logger.py to use the console logger
-COPY logger.py /tmp/logger.py
-COPY rsyslog.conf /tmp/rsyslog.conf
+# need rsyslog
+COPY rsyslog.conf /etc/rsyslog.conf
 
 # now build it
 # convoluted steps here
@@ -44,21 +43,21 @@ COPY rsyslog.conf /tmp/rsyslog.conf
 #     and use our patched version through 'setup install'
 #   - then put the stashed logger.py back into place
 
-RUN cd /tmp/weewx-* && \
-    cp /tmp/rsyslog.conf /etc/rsyslog.conf && \
-    cp ./bin/weeutil/logger.py /tmp/logger.py.dist && cp /tmp/logger.py ./bin/weeutil/logger.py && \
-    python3 ./setup.py build && \
-    /usr/sbin/rsyslogd && \
-    echo -e "mylocation\n700,foot\n0.00\n0.00\nn\nus\n3\n" | python3 ./setup.py install  && \
-    cp /tmp/logger.py.dist /home/weewx/bin/weeutil/logger.py && \
-    mkdir -p /home/weewx/archive /home/weewx/public_html && \
-    sed -i -e s:debug\ =\ 0:debug\ =\ 1: /home/weewx/weewx.conf
+RUN wget https://github.com/weewx/weewx/archive/master.zip -O /tmp/weewx.zip && \
+      unzip /tmp/weewx*.zip && \
+      cd weewx-* ; python3 ./setup.py build && python3 ./setup.py install --no-prompt && \
+      cp /home/weewx/util/init.d/weewx.debian /etc/init.d/weewx && \
+      mkdir -p /home/weewx/archive /home/weewx/public_html && \
+      sed -i -e s:My\ Little\ Town,\ Oregon:Centos8\ setup.py\ test\ system: /home/weewx/weewx.conf && \
+      rsyslogd
 
-# set the location to something indicating this os
-RUN sed -i -e s:mylocation:Centos8\ setup.py\ test\ system: /home/weewx/weewx.conf
+#--- uncomment to set weewx debug=1 
+RUN sed -i -e s:debug\ =\ 0:debug\ =\ 1: /home/weewx/weewx.conf
 
 #---- uncomment to set your timezone to other than UTC
 RUN TIMEZONE="US/Pacific" && rm -f /etc/localtime && ln -s /usr/share/zoneinfo/${TIMEZONE} /etc/localtime
 
 # call supervisord as our container process to run
 CMD ["/usr/bin/supervisord"]
+
+##### vds
