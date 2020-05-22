@@ -33,8 +33,8 @@ Note: this compose files uses /var/tmp/weewx_html and /var/tmp/weewx_archive for
 | centos | 8     | setup |   3    |    8857    | 
 
 ### known issues:
- * workarounds to make logging work vs v4.0.0 are in the Dockerfiles
-
+ * updated setup.py variants to use master.zip downloaded from github
+ 
 ### to stop all containers and delete networks
     docker-compose down 
     docker-compose down wee_pkg_deb10    # to shut down just that one pair of containers
