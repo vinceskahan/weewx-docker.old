@@ -1,6 +1,20 @@
 version: '3'
 services:
 
+  #
+  # start up a pair of weewx/nginx containers by:
+  #    docker-compose up -d weewx_pkg_ubuntu2004
+  #    docker-compose up -d weewx_setup_ubuntu2004
+  #    docker-compose up -d weewx_setup_deb10
+  #    docker-compose up -d weewx_pkg_deb10
+  #    docker-compose up -d weewx_setup_deb10_py2
+  #    docker-compose up -d weewx_setup_centos7_py2
+  #    docker-compose up -d weewx_setup_centos8
+  #
+  # to do:
+  #    pkg_centos7
+  #    pkg_centos8
+
   #-----------------------------------------------------------------------
   #--- ubuntu 2004 installed via dpkg ---
   #-----------------------------------------------------------------------
@@ -218,65 +232,3 @@ services:
     volumes:
       - /var/tmp/weewx_html/html_setup_centos8:/usr/share/nginx/html
 
-
-#-- #---- uubuntu nginx listens on localhost:8081 ---
-#-- 
-#--   weenginx_uubuntu:
-#--     image: nginx
-#--     container_name: weenginx_uubuntu
-#--     ports:
-#--       - "8081:80"
-#--     volumes:
-#--       - ./public_html_uubuntu:/usr/share/nginx/html
-#-- 
-#--   weeubuntu:
-#--     build: weeubuntu
-#--     container_name: weeubuntu
-#--     image: weeubuntu:3.9.1
-#--     depends_on:
-#--       - weenginx_uubuntu
-#--     volumes:
-#--       - ./public_html_uubuntu:/home/weewx/public_html
-#--       - ./archive_uubuntu:/home/weewx/archive
-#-- 
-#-- #---- centos7 nginx listens on localhost:8082 ---
-#-- 
-#--   weenginx_centos7:
-#--     image: nginx
-#--     container_name: weenginx_centos7
-#--     ports:
-#--       - "8082:80"
-#--     volumes:
-#--       - ./public_html_centos7:/usr/share/nginx/html
-#-- 
-#--   weentos7:
-#--     build: centos7
-#--     container_name: weentos7
-#--     image: weentos7:3.9.1
-#--     depends_on:
-#--       - weenginx_centos7
-#--     volumes:
-#--       - ./public_html_centos7:/home/weewx/public_html
-#--       - ./archive_centos7:/home/weewx/archive
-#-- 
-#-- #---- centos6 nginx listens on localhost:8083 ---
-#-- 
-#--   weenginx_centos6:
-#--     image: nginx
-#--     container_name: weentos6
-#--     container_name: weenginx_centos6
-#--     ports:
-#--       - "8083:80"
-#--     volumes:
-#--       - ./public_html_centos6:/usr/share/nginx/html
-#-- 
-#--   weentos6:
-#--     build: centos6
-#--     image: weentos6:3.9.1
-#--     depends_on:
-#--       - weenginx_centos6
-#--     volumes:
-#--       - ./public_html_centos6:/home/weewx/public_html
-#--       - ./archive_centos6:/home/weewx/archive
-#-- 
-#----- that's all folks ----
