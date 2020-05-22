@@ -15,7 +15,7 @@ RUN yum update -y  \
     && yum install -y sqlite3 wget \
            python-configobj python-cheetah python-imaging \
            tzdata python-setuptools \
-           rsyslog
+           rsyslog unzip
 
 RUN easy_install supervisor
 
@@ -28,14 +28,15 @@ RUN easy_install supervisor
 
 # (note: pyephem above makes the size much bigger and the build much slower)
 
+#### TO DO - and delete rpmdb etc to minimize the size of the container
+
 # extract it out
 RUN wget http://weewx.com/downloads/weewx-4.0.0.tar.gz -O /tmp/weewx.tgz && \
       cd /tmp && \
       tar zxvf /tmp/weewx.tgz
 
-# patch logger.py to use the console logger
-COPY logger.py /tmp/logger.py
-COPY rsyslog.conf /tmp/rsyslog.conf
+# need rsyslog
+COPY rsyslog.conf /etc/rsyslog.conf
 
 # now build it
 # convoluted steps here
@@ -44,18 +45,16 @@ COPY rsyslog.conf /tmp/rsyslog.conf
 #     and use our patched version through 'setup install'
 #   - then put the stashed logger.py back into place
 
-RUN cd /tmp/weewx-* && \
-    cp /tmp/rsyslog.conf /etc/rsyslog.conf && \
-    cp ./bin/weeutil/logger.py /tmp/logger.py.dist && cp /tmp/logger.py ./bin/weeutil/logger.py && \
-    python ./setup.py build && \
-    /usr/sbin/rsyslogd && \
-    echo -e "mylocation\n700,foot\n0.00\n0.00\nn\nus\n3\n" | python ./setup.py install  && \
-    cp /tmp/logger.py.dist /home/weewx/bin/weeutil/logger.py && \
-    mkdir -p /home/weewx/archive /home/weewx/public_html && \
-    sed -i -e s:debug\ =\ 0:debug\ =\ 1: /home/weewx/weewx.conf
+RUN wget https://github.com/weewx/weewx/archive/master.zip -O /tmp/weewx.zip && \
+      unzip /tmp/weewx*.zip && \
+      cd weewx-* ; python ./setup.py build && python ./setup.py install --no-prompt && \
+      cp /home/weewx/util/init.d/weewx.debian /etc/init.d/weewx && \
+      mkdir -p /home/weewx/archive /home/weewx/public_html && \
+      sed -i -e s:My\ Little\ Town,\ Oregon:Centos7\ setup.py\ test\ system\ \(python2\): /home/weewx/weewx.conf && \
+      rsyslogd
 
-# set the location to something indicating this os
-RUN sed -i -e s:mylocation:Centos7\ setup.py\ test\ system\ \(python2\): /home/weewx/weewx.conf
+#--- uncomment to set weewx debug=1
+RUN sed -i -e s:debug\ =\ 0:debug\ =\ 1: /home/weewx/weewx.conf
 
 #---- uncomment to set your timezone to other than UTC
 RUN TIMEZONE="US/Pacific" && rm -f /etc/localtime && ln -s /usr/share/zoneinfo/${TIMEZONE} /etc/localtime
