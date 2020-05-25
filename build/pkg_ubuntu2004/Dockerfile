@@ -12,7 +12,7 @@
 #     and in the shell 'service start' nginx and weewx
 #
 # last modified:
-#     2019-0515 - update to 4.0.0
+#     2019-0515 - update to 4.1.0
 #-------------------------------------------------------
 
 FROM ubuntu:20.04
@@ -20,22 +20,6 @@ MAINTAINER Vince Skahan "vinceskahan@gmail.com"
 
 # copy supervisor config file into place
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
-
-# install misc packages, webserver, weewx prerequisites, pip, supervisord/sshd
-# then install pyephem via pip
-# then install weewx via the setup.py method
-#  - the 'cd' below expects Tom to stick with the weewx-VERSION naming in his .tgz
-#
-# cleanup of apt remnants courtesy of:
-#  https://gist.github.com/marvell/7c812736565928e602c4
-#
-# this should be reasonably stable
-#
-# os notes:
-#    debian:10 docker base image does not have python3-distutils installed
-#              and seems to default to python2, so we call python3 explictly below
-#              if this Dockerfile uses setup.py
-#
 
 RUN apt-get update \
     && apt-get install -y sqlite3 wget \
@@ -60,22 +44,10 @@ RUN apt-get update \
 #           python-pip \
 #   && pip install pyephem
 
-# install weewx, making sure to mkdir the directories we will use as external volumes
-##### (4.0.0 needs a patch to restore --no-prompt)
-####cd weewx-* ; ./setup.py build ; ./setup.py install --no-prompt && \
-#RUN wget http://weewx.com/downloads/weewx-4.0.0.tar.gz -O /tmp/weewx.tgz && \
-#      cd /tmp && \
-#      tar zxvf /tmp/weewx.tgz && \
-#      cd weewx-* ; python3 ./setup.py build && echo "debian10\n700,foot\n0.00\n0.00\nn\nus\n3\n" | python3 ./setup.py install && \
-#      cp /home/weewx/util/init.d/weewx.debian /etc/init.d/weewx && \
-#      mkdir -p /home/weewx/archive /home/weewx/public_html
-## set the location to something indicating this os
-
-RUN wget http://www.weewx.com/downloads/released_versions/python3-weewx_4.0.0-1_all.deb && \
-    DEBIAN_FRONTEND=noninteractive apt-get install -y ./python3-weewx_4.0.0-1_all.deb
+RUN wget http://www.weewx.com/downloads/released_versions/python3-weewx_4.1.0-1_all.deb && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y ./python3-weewx_4.1.0-1_all.deb
 
 # let'em know who we are
-####RUN sed -i -e s:My\ Little\ Town,\ Oregon:Debian10\ dpkg\ test\ system: /etc/weewx/weewx.conf
 RUN sed -i -e s:Santa\'s\ Workshop,\ North\ Pole:Ubuntu20.04\ dpkg\ test\ system: /etc/weewx/weewx.conf
 
 #---- uncomment to set your timezone to other than UTC
@@ -84,12 +56,3 @@ RUN sed -i -e s:Santa\'s\ Workshop,\ North\ Pole:Ubuntu20.04\ dpkg\ test\ system
 
 # call supervisord as our container process to run
 CMD ["supervisord"]
-
-# try it with a wrapper script
-#COPY foo foo
-#COPY weewx-startup-script weewx-startup-script
-#CMD sh ./foo
-#CMD service weewx start #### >/dev/null 2>/dev/null && bash
-
-# CMD ["/bin/bash"]
-

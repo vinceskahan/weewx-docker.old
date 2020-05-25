@@ -31,7 +31,7 @@ RUN easy_install supervisor
 #### TO DO - and delete rpmdb etc to minimize the size of the container
 
 # extract it out
-RUN wget http://weewx.com/downloads/weewx-4.0.0.tar.gz -O /tmp/weewx.tgz && \
+RUN wget http://weewx.com/downloads/weewx-4.1.0.tar.gz -O /tmp/weewx.tgz && \
       cd /tmp && \
       tar zxvf /tmp/weewx.tgz
 

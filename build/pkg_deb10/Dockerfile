@@ -12,7 +12,7 @@
 #     and in the shell 'service start' nginx and weewx
 #
 # last modified:
-#     2019-0515 - update to 4.0.0
+#     2019-0525 - update to 4.1.0
 #-------------------------------------------------------
 
 FROM debian:10
@@ -61,9 +61,9 @@ RUN apt-get update \
 #   && pip install pyephem
 
 # install weewx, making sure to mkdir the directories we will use as external volumes
-##### (4.0.0 needs a patch to restore --no-prompt)
+##### (4.1.0 needs a patch to restore --no-prompt)
 ####cd weewx-* ; ./setup.py build ; ./setup.py install --no-prompt && \
-#RUN wget http://weewx.com/downloads/weewx-4.0.0.tar.gz -O /tmp/weewx.tgz && \
+#RUN wget http://weewx.com/downloads/weewx-4.1.0.tar.gz -O /tmp/weewx.tgz && \
 #      cd /tmp && \
 #      tar zxvf /tmp/weewx.tgz && \
 #      cd weewx-* ; python3 ./setup.py build && echo "debian10\n700,foot\n0.00\n0.00\nn\nus\n3\n" | python3 ./setup.py install && \
@@ -71,8 +71,8 @@ RUN apt-get update \
 #      mkdir -p /home/weewx/archive /home/weewx/public_html
 ## set the location to something indicating this os
 
-RUN wget http://www.weewx.com/downloads/released_versions/python3-weewx_4.0.0-1_all.deb && \
-    DEBIAN_FRONTEND=noninteractive apt-get install -y ./python3-weewx_4.0.0-1_all.deb
+RUN wget http://www.weewx.com/downloads/released_versions/python3-weewx_4.1.0-1_all.deb && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y ./python3-weewx_4.1.0-1_all.deb
 
 # let'em know who we are
 RUN sed -i -e s:Santa\'s\ Workshop,\ North\ Pole:Debian10\ dpkg\ test\ system: /etc/weewx/weewx.conf

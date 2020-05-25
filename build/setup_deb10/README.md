@@ -10,3 +10,7 @@ This small set of files lets you spin up a working Docker instance of weewx on t
     * exposes its public_html and archive directories to directories on the host
     * starts a vanilla nginx container that uses this public_html directory as its docroot
 
+
+## adding pip adds 400 MB (!!!) to the size of this container
+
+* suggest adding and using it, then deleting and cleaning up the dpkg db afterwards

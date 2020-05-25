@@ -29,7 +29,7 @@ RUN yum update -y \
 # (note: pyephem above makes the size much bigger and the build much slower)
 
 # extract it out
-RUN wget http://weewx.com/downloads/weewx-4.0.0.tar.gz -O /tmp/weewx.tgz && \
+RUN wget http://weewx.com/downloads/weewx-4.1.0.tar.gz -O /tmp/weewx.tgz && \
       cd /tmp && \
       tar zxvf /tmp/weewx.tgz
 
