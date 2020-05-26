@@ -36,7 +36,7 @@ Note: this compose files uses /var/tmp/weewx_html and /var/tmp/weewx_archive for
 | centos | 8     | setup |   3    |    8857    |  478 |
 
 ### known issues:
- * updated setup.py variants to use master.zip downloaded from github
+ * centos variants aren't as stripped as they could be
  
 ### to stop all containers and delete networks
     docker-compose down 
