@@ -25,15 +25,15 @@ Note: this compose files uses /var/tmp/weewx_html and /var/tmp/weewx_archive for
 
 ### to see the web pages:
 
-|   os   |  ver  |  type | python | nginx port | 
-| :---:  | :---: | :---: | :---:  |    :---:   |  
-| ubuntu | 20.04 | setup |   3    |    8879    |  
-| ubuntu | 20.04 | dpkg  |   3    |    8878    | 
-| debian | 10    | setup |   3    |    8889    | 
-| debian | 10    | dpkg  |   3    |    8888    | 
-| debian | 10    | setup |   2    |    8887    | 
-| centos | 7     | setup |   2    |    8867    | 
-| centos | 8     | setup |   3    |    8857    | 
+|   os   |  ver  |  type | python | nginx port | size (MB) |
+| :---:  | :---: | :---: | :---:  |    :---:   |   :---:   |
+| ubuntu | 20.04 | setup |   3    |    8879    |  170 |
+| ubuntu | 20.04 | dpkg  |   3    |    8878    |  207 |
+| debian | 10    | setup |   3    |    8889    |  310 |
+| debian | 10    | dpkg  |   3    |    8888    |  335 |
+| debian | 10    | setup |   2    |    8887    |  283 |
+| centos | 7     | setup |   2    |    8867    |  361 |
+| centos | 8     | setup |   3    |    8857    |  478 |
 
 ### known issues:
  * updated setup.py variants to use master.zip downloaded from github
