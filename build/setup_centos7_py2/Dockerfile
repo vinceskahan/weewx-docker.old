@@ -15,9 +15,9 @@ RUN yum update -y  \
     && yum install -y sqlite3 wget \
            python-configobj python-cheetah python-imaging \
            tzdata python-setuptools \
-           rsyslog unzip
+           rsyslog unzip epel-release
 
-RUN easy_install supervisor
+RUN yum install -y supervisor
 
 # add the trailing \ above and uncomment these to add in 
 # unnecessary things that you might want to add to the image
@@ -31,7 +31,7 @@ RUN easy_install supervisor
 #### TO DO - and delete rpmdb etc to minimize the size of the container
 
 # extract it out
-RUN wget http://weewx.com/downloads/weewx-4.1.0.tar.gz -O /tmp/weewx.tgz && \
+RUN wget http://weewx.com/downloads/weewx-4.5.1.tar.gz -O /tmp/weewx.tgz && \
       cd /tmp && \
       tar zxvf /tmp/weewx.tgz
 

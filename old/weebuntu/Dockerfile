@@ -14,22 +14,6 @@
 # this Dockerfile sets root's password = root
 # and permits root logins over ssh for debugging
 #
-# last modified:
-#     2019-0516 - update to 4.0.0
-#     2019-0206 - update to 3.9.1, clean up apt remnants
-#     2019-0205 - update to 3.9.0
-#     2019-0203 - update to 3.9.0b3
-#     2018-0816 - update to 3.8.2
-#     2018-0430 - use python-pil for bionic, timezone=US/Pacific
-#     2017-1122 - update to 3.8.0
-#     2017-1007 - update to 3.7.1
-#     2016-1021 - refactor for docker-compose
-#     2016-1008 - update to 3.6.0, use vanila debian image
-#     2016-0505 - update to 3.5.0
-#     2015-1211 - install pyephem, refactor to reduce layers
-#     2015-1206 - update to 3.3.1
-#     2015-0220 vinceskahan@gmail.com - original
-#
 #-------------------------------------------------------
 
 FROM ubuntu

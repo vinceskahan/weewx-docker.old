@@ -13,7 +13,7 @@
 #
 #-------------------------------------------------------
 
-FROM debian:10
+FROM debian:11
 MAINTAINER Vince Skahan "vinceskahan@gmail.com"
 
 # copy supervisor config file into place

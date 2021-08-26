@@ -170,6 +170,7 @@ services:
     volumes:
       - /var/tmp/weewx_html/html_setup_deb10_py2:/usr/share/nginx/html
 
+
   #-----------------------------------------------------------------------
   #--- centos 7 installed via setup (python2) ---
   #-----------------------------------------------------------------------

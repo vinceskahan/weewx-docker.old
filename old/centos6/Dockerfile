@@ -11,15 +11,6 @@
 # or 'docker run -i -t weentos6 /bin/bash'
 #     and in the shell 'service start' nginx and weewx
 #
-# last modified:
-#     2019-0516 - update to 4.0.0
-#     2019-0206 - update to 3.9.1
-#     2019-0205 - update to 3.9.0
-#     2019-0203 - update to 3.9.0b3
-#     2018-0816 - update to 3.8.2
-#     2018-0502 - try centos6
-#     2018-0430 - set timezone to US/Pacific
-#
 #-------------------------------------------------------
 
 FROM centos:6
