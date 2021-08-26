@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+HOME=/home/weewx
+cd $HOME
+./bin/weewxd /home/weewx/weewx.conf  > /dev/stdout
