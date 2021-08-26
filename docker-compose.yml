@@ -7,6 +7,8 @@ services:
   #    docker-compose up -d weewx_setup_ubuntu2004
   #    docker-compose up -d weewx_setup_deb10
   #    docker-compose up -d weewx_pkg_deb10
+  #    docker-compose up -d weewx_setup_deb11
+  #    docker-compose up -d weewx_pkg_deb11
   #    docker-compose up -d weewx_setup_deb10_py2
   #    docker-compose up -d weewx_setup_centos7_py2
   #    docker-compose up -d weewx_setup_centos8
@@ -14,37 +16,84 @@ services:
   # to do:
   #    pkg_centos7
   #    pkg_centos8
+  #
+  # webserver listening ports:
+  #
+  #    8889 deb11 setup
+  #    8888 deb11 pkg
+  #
+  #    8849 deb10 setup
+  #    8848 deb10 pkg
+  #    8847 deb10 setup py2
+  #
+  #    8879 ubuntu2004 setup
+  #    8878 ubuntu2004 pkg
+  #
+  #    8867 centos7 setup py2
+  #
+  #    8859 centos8 setup
 
   #-----------------------------------------------------------------------
-  #--- ubuntu 2004 installed via dpkg ---
+  #--- debian 11 installed via setup ---
   #-----------------------------------------------------------------------
   #
-  #    webserver listens on 8878
+  #    webserver listens on 8889
   #
   # to build+run this pair:
-  #    docker-compose up weewx_pkg_ubuntu2004
+  #    docker-compose up weewx_setup_deb11
   #
   # to destroy and remove it:
-  #    docker-compose down weewx_pkg_ubuntu2004
+  #    docker-compose down weewx_setup_deb11
 
-  weewx_pkg_ubuntu2004:
+  weewx_setup_deb11:
     tty: true
-    build: build/pkg_ubuntu2004
-    container_name: weewx_pkg_ubuntu2004
-    image: weewx_pkg_ubuntu2004:latest
+    build: build/setup_deb11
+    container_name: weewx_setup_deb11
+    image: weewx_setup_deb11:latest
     depends_on:
-      - weewx_nginx_pkg_ubuntu2004
+      - weewx_nginx_setup_deb11
     volumes:
-      - /var/tmp/weewx_html/html_pkg_ubuntu2004:/var/www/html/weewx
-      - /var/tmp/weewx_archive/archive_pkg_ubuntu2004:/var/lib/weewx
-  
-  weewx_nginx_pkg_ubuntu2004:
+      - /var/tmp/weewx_html/html_setup_deb11:/home/weewx/public_html
+      - /var/tmp/weewx_archive/archive_setup_deb11:/home/weewx/archive
+
+  weewx_nginx_setup_deb11:
     image: nginx
-    container_name: weewx_nginx_pkg_ubuntu2004
+    container_name: weewx_nginx_setup_deb11
     ports:
-      - "8878:80"
+      - "8889:80"
     volumes:
-      - /var/tmp/weewx_html/html_pkg_ubuntu2004:/usr/share/nginx/html
+      - /var/tmp/weewx_html/html_setup_deb11:/usr/share/nginx/html
+
+  #-----------------------------------------------------------------------
+  #--- debian 11 installed via dpkg ---
+  #-----------------------------------------------------------------------
+  #
+  #    webserver listens on 8888
+  #
+  # to build+run this pair:
+  #    docker-compose up weewx_pkg_deb11
+  #
+  # to destroy and remove it:
+  #    docker-compose down weewx_pkg_deb11
+
+  weewx_pkg_deb11:
+    tty: true
+    build: build/pkg_deb11
+    container_name: weewx_pkg_deb11
+    image: weewx_pkg_deb11:latest
+    depends_on:
+      - weewx_nginx_pkg_deb11
+    volumes:
+      - /var/tmp/weewx_html/html_pkg_deb11:/var/www/html/weewx
+      - /var/tmp/weewx_archive/archive_pkg_deb11:/var/lib/weewx
+
+  weewx_nginx_pkg_deb11:
+    image: nginx
+    container_name: weewx_nginx_pkg_deb11
+    ports:
+      - "8888:80"
+    volumes:
+      - /var/tmp/weewx_html/html_pkg_deb11:/usr/share/nginx/html
 
   #-----------------------------------------------------------------------
   #--- ubuntu 20.04 installed via setup ---
@@ -78,10 +127,41 @@ services:
       - /var/tmp/weewx_html/html_setup_ubuntu2004:/usr/share/nginx/html
 
   #-----------------------------------------------------------------------
+  #--- ubuntu 20.04 installed via dpkg ---
+  #-----------------------------------------------------------------------
+  #
+  #    webserver listens on 8878
+  #
+  # to build+run this pair:
+  #    docker-compose up weewx_pkg_ubuntu2004
+  #
+  # to destroy and remove it:
+  #    docker-compose down weewx_pkg_ubuntu2004
+
+  weewx_pkg_ubuntu2004:
+    tty: true
+    build: build/pkg_ubuntu2004
+    container_name: weewx_pkg_ubuntu2004
+    image: weewx_pkg_ubuntu2004:latest
+    depends_on:
+      - weewx_nginx_pkg_ubuntu2004
+    volumes:
+      - /var/tmp/weewx_html/html_pkg_ubuntu2004:/var/www/html/weewx
+      - /var/tmp/weewx_archive/archive_pkg_ubuntu2004:/var/lib/weewx
+
+  weewx_nginx_pkg_ubuntu2004:
+    image: nginx
+    container_name: weewx_nginx_pkg_ubuntu2004
+    ports:
+      - "8878:80"
+    volumes:
+      - /var/tmp/weewx_html/html_pkg_ubuntu2004:/usr/share/nginx/html
+
+  #-----------------------------------------------------------------------
   #--- debian 10 installed via setup ---
   #-----------------------------------------------------------------------
   #
-  #    webserver listens on 8889
+  #    webserver listens on 8849
   #
   # to build+run this pair:
   #    docker-compose up weewx_setup_deb10
@@ -104,7 +184,7 @@ services:
     image: nginx
     container_name: weewx_nginx_setup_deb10
     ports:
-      - "8889:80"
+      - "8849:80"
     volumes:
       - /var/tmp/weewx_html/html_setup_deb10:/usr/share/nginx/html
 
@@ -112,7 +192,7 @@ services:
   #--- debian 10 installed via dpkg ---
   #-----------------------------------------------------------------------
   #
-  #    webserver listens on 8888
+  #    webserver listens on 8848
   #
   # to build+run this pair:
   #    docker-compose up weewx_pkg_deb10
@@ -135,15 +215,16 @@ services:
     image: nginx
     container_name: weewx_nginx_pkg_deb10
     ports:
-      - "8888:80"
+      - "8848:80"
     volumes:
       - /var/tmp/weewx_html/html_pkg_deb10:/usr/share/nginx/html
+
 
   #-----------------------------------------------------------------------
   #--- debian 10 installed via setup (python2) ---
   #-----------------------------------------------------------------------
   #
-  #    webserver listens on 8887
+  #    webserver listens on 8847
   #
   # to build+run this pair:
   #    docker-compose up weewx_setup_deb10_py2
@@ -166,7 +247,7 @@ services:
     image: nginx
     container_name: weewx_nginx_setup_deb10_py2
     ports:
-      - "8887:80"
+      - "8847:80"
     volumes:
       - /var/tmp/weewx_html/html_setup_deb10_py2:/usr/share/nginx/html
 
@@ -203,10 +284,10 @@ services:
       - /var/tmp/weewx_html/html_setup_centos7_py2:/usr/share/nginx/html
 
   #-----------------------------------------------------------------------
-  #--- centos 8 installed via setup (python2) ---
+  #--- centos 8 installed via setup (python3) ---
   #-----------------------------------------------------------------------
   #
-  #    webserver listens on 8857
+  #    webserver listens on 8859
   #
   # to build+run this pair:
   #    docker-compose up weewx_setup_centos8
@@ -229,7 +310,6 @@ services:
     image: nginx
     container_name: weewx_nginx_setup_centos8
     ports:
-      - "8857:80"
+      - "8859:80"
     volumes:
       - /var/tmp/weewx_html/html_setup_centos8:/usr/share/nginx/html
-
