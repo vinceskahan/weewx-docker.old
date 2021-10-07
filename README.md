@@ -9,16 +9,16 @@ This runs pairs of docker containers configured to work together:
 Note: this compose files uses /var/tmp/weewx_html and /var/tmp/weewx_archive for persistent storage
 
 ### to build:
-    docker-compose build                   # to build all variants
-    docker-compose build wee_pkg_deb10     # to build only one variant
+    docker-compose build                     # to build all variants
+    docker-compose build weewx_pkg_deb10     # to build only one variant
 
 ### to run with logs in foreground:
-    docker-compose up                      # to run all variants
-    docker-compose up wee_pkg_deb10        # to run only one variant
+    docker-compose up                        # to run all variants
+    docker-compose up weewx_pkg_deb10        # to run only one variant
 
 ### to run detached:
-    docker-compose up -d                   # to run all variants
-    docker-compose up -d wee_pkg_deb10     # to run only one variant
+    docker-compose up -d                     # to run all variants
+    docker-compose up -d weewx_pkg_deb10     # to run only one variant
 
 ### for a list of currently supported variants
     see the docker-compose file
@@ -43,7 +43,7 @@ Note: this compose files uses /var/tmp/weewx_html and /var/tmp/weewx_archive for
  
 ### to stop all containers and delete networks
     docker-compose down 
-    docker-compose down wee_pkg_deb10    # to shut down just that one pair of containers
+    docker-compose down weewx_pkg_deb10    # to shut down just that one pair of containers
 
 ### disclaimers
  * if on a mac and docker-compose is glacially slow, add the following to your /etc/hosts
