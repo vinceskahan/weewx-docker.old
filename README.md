@@ -27,16 +27,19 @@ Note: this compose files uses /var/tmp/weewx_html and /var/tmp/weewx_archive for
 
 |   os   |  ver  |  type | python | nginx port | size (MB) |
 | :---:  | :---: | :---: | :---:  |    :---:   |   :---:   |
-| ubuntu | 20.04 | setup |   3    |    8879    |  170 |
-| ubuntu | 20.04 | dpkg  |   3    |    8878    |  207 |
-| debian | 10    | setup |   3    |    8889    |  310 |
-| debian | 10    | dpkg  |   3    |    8888    |  335 |
-| debian | 10    | setup |   2    |    8887    |  283 |
-| centos | 7     | setup |   2    |    8867    |  361 |
-| centos | 8     | setup |   3    |    8857    |  478 |
+| ubuntu | 20.04 | setup |   3    |    8879    |  168 |
+| ubuntu | 20.04 | dpkg  |   3    |    8878    |  202 |
+| debian | 11    | setup |   3    |    8889    |  336 |
+| debian | 11    | dpkg  |   3    |    8888    |  368 |
+| debian | 10    | setup |   3    |    8889    |  302 |
+| debian | 10    | dpkg  |   3    |    8888    |  329 |
+| debian | 10    | setup |   2    |    8887    |  276 |
+| centos | 8     | setup |   3    |    8857    |  697 |
+| centos | 7     | setup |   2    |    8867    |  1220 |
 
 ### known issues:
- * centos variants aren't as stripped as they could be
+ * centos variants obviously aren't anywhere near as stripped as they could be
+ * all the images could probably be cleaned up significantly for size
  
 ### to stop all containers and delete networks
     docker-compose down 
