@@ -34,7 +34,7 @@ RUN wget http://www.weewx.com/downloads/released_versions/weewx-4.5.1.tar.gz -O 
       cd weewx-* ; python3 ./setup.py build && python3 ./setup.py install --no-prompt && \
       cp /home/weewx/util/init.d/weewx.debian /etc/init.d/weewx && \
       mkdir -p /home/weewx/archive /home/weewx/public_html && \
-      sed -i -e s:My\ Little\ Town,\ Oregon:Debian10\ setup.py\ test\ system: /home/weewx/weewx.conf
+      sed -i -e s:My\ Little\ Town,\ Oregon:Debian11\ setup.py\ test\ system: /home/weewx/weewx.conf
 
 #---- uncomment to set your timezone to other than UTC
 RUN TIMEZONE="US/Pacific" && rm /etc/timezone && rm /etc/localtime && echo $TIMEZONE > /etc/timezone && dpkg-reconfigure --frontend noninteractive tzdata
