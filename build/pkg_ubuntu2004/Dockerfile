@@ -42,8 +42,8 @@ RUN apt-get update \
 #           python-pip \
 #   && pip install pyephem
 
-RUN wget http://www.weewx.com/downloads/released_versions/python3-weewx_4.5.1-1_all.deb && \
-    DEBIAN_FRONTEND=noninteractive apt-get install -y ./python3-weewx_4.5.1-1_all.deb
+RUN wget http://www.weewx.com/downloads/released_versions/python3-weewx_4.6.0-1_all.deb && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y ./python3-weewx_4.6.0-1_all.deb
 
 # let'em know who we are
 RUN sed -i -e s:Santa\'s\ Workshop,\ North\ Pole:Ubuntu20.04\ dpkg\ test\ system: /etc/weewx/weewx.conf

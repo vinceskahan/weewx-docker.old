@@ -59,9 +59,9 @@ RUN apt-get update \
 #   && pip install pyephem
 
 # install weewx, making sure to mkdir the directories we will use as external volumes
-##### (4.5.1 needs a patch to restore --no-prompt)
+##### (4.6.0 needs a patch to restore --no-prompt)
 ####cd weewx-* ; ./setup.py build ; ./setup.py install --no-prompt && \
-#RUN wget http://weewx.com/downloads/weewx-4.5.1.tar.gz -O /tmp/weewx.tgz && \
+#RUN wget http://weewx.com/downloads/weewx-4.6.0.tar.gz -O /tmp/weewx.tgz && \
 #      cd /tmp && \
 #      tar zxvf /tmp/weewx.tgz && \
 #      cd weewx-* ; python3 ./setup.py build && echo "debian10\n700,foot\n0.00\n0.00\nn\nus\n3\n" | python3 ./setup.py install && \
@@ -69,8 +69,8 @@ RUN apt-get update \
 #      mkdir -p /home/weewx/archive /home/weewx/public_html
 ## set the location to something indicating this os
 
-RUN wget http://www.weewx.com/downloads/released_versions/python3-weewx_4.5.1-1_all.deb && \
-    DEBIAN_FRONTEND=noninteractive apt-get install -y ./python3-weewx_4.5.1-1_all.deb
+RUN wget http://www.weewx.com/downloads/released_versions/python3-weewx_4.6.0-1_all.deb && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y ./python3-weewx_4.6.0-1_all.deb
 
 # let'em know who we are
 RUN sed -i -e s:Santa\'s\ Workshop,\ North\ Pole:Debian11\ dpkg\ test\ system: /etc/weewx/weewx.conf

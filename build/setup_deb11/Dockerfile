@@ -30,7 +30,7 @@ COPY rsyslog.conf /etc/rsyslog.conf
 #### RUN wget https://github.com/weewx/weewx/archive/master.zip -O /tmp/weewx.zip && cd /tmp && \ unzip /tmp/weewx.zip && \
 
 # or use this line to use a specific version
-RUN wget http://www.weewx.com/downloads/released_versions/weewx-4.5.1.tar.gz -O /tmp/weewx.tgz && cd /tmp && tar zxvf /tmp/weewx*.tgz && \
+RUN wget http://www.weewx.com/downloads/released_versions/weewx-4.6.0.tar.gz -O /tmp/weewx.tgz && cd /tmp && tar zxvf /tmp/weewx*.tgz && \
       cd weewx-* ; python3 ./setup.py build && python3 ./setup.py install --no-prompt && \
       cp /home/weewx/util/init.d/weewx.debian /etc/init.d/weewx && \
       mkdir -p /home/weewx/archive /home/weewx/public_html && \
