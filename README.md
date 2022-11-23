@@ -1,4 +1,9 @@
 
+# DEPRECATED - THIS IS AN OLD PROOF_OF_CONCEPT (unsupported as of 2022-1123)
+# DEPRECATED - THIS IS AN OLD PROOF_OF_CONCEPT (unsupported as of 2022-1123)
+# DEPRECATED - THIS IS AN OLD PROOF_OF_CONCEPT (unsupported as of 2022-1123)
+
+----
 # Docker implementation of weewx in simulator mode
 
 This runs pairs of docker containers configured to work together:
